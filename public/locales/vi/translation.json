@@ -1,3 +1,17 @@
 {
-    "welcome_to_scan_party": "Chào mừng đến với scan party!"
+    "welcome_to_scan_party": "Chào mừng đến với scan party!",
+    "sign_up": "Đăng Kí",
+    "first_name": "Tên",
+    "last_name": "Họ",
+    "email_address": "Địa Chỉ Email",
+    "password": "Mật Khẩu",
+    "confirm_password": "Xác Nhận Mật Khẩu",
+    "email_marketing": "Tôi muốn nhận được các chương trình khuyến mại và cập nhập qua email.",
+    "already_have_an_account": "Đã có tài khoản? Đăng nhập",
+    "reset_password": "Thay đổi mật khẩu",
+    "already_have_login_and_password": "Bạn đã có tài khoản và mật khẩu? Đăng nhập",
+    "sign_in": "Đăng nhập",
+    "forgot_password": "quên mật khẩu?",
+    "dont_have_an_account": "Bạn chưa có tài khoản? Đăng kí",
+    "remember_me": "Nhớ tài khoản"
 }

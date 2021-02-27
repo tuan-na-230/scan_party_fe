@@ -1,3 +1,17 @@
 {
-    "welcome_to_scan_party": "Welcome to scan party!"
+    "welcome_to_scan_party": "Welcome to scan party!",
+    "sign_up": "Sign Up",
+    "first_name": "First Name",
+    "last_name": "Last Name",
+    "email_address": "Email Address",
+    "password": "Password",
+    "confirm_password": "Confirm Password",
+    "email_marketing": "I want to receive inspiration, marketing promotions and updates via email.",
+    "already_have_an_account": "Already have an account? Sign in",
+    "reset_password": "Reset Password",
+    "already_have_login_and_password": "Already have login and password? Sign in",
+    "sign_in": "Sign In",
+    "forgot_password": "Forgot password?",
+    "dont_have_an_account": "Don't have an account? Sign Up",
+    "remember_me": "Remember me"
 }
