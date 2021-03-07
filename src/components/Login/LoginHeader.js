@@ -17,7 +17,7 @@ export default function LoginHeader() {
     }, [isVi])
     
     return (
-        <div style={{ padding: '20px 50px 0px 50px', display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+        <div style={{ padding: '0px 50px 0px 50px', display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
             <div style={{ padding: '10px 20px', margin: '0px 5px', border: '1px solid #c0c0c0', borderRadius: '10px', display: 'flex', alignItems: 'center'}}>
                 <label>darkmode</label>
                 <label style={{height: '24px'}}>

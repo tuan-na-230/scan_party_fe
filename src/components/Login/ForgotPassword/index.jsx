@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -13,10 +13,13 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import SPTextField from '../../form_field/SPTextField';
 import { FastField, Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import axiosClient from '../../../http/axiosClient';
+import loginService from '../index.service';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
-        marginTop: theme.spacing(15),
+        marginTop: theme.spacing(3),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -37,6 +40,19 @@ const useStyles = makeStyles((theme) => ({
 function ForgotPassword() {
     const classes = useStyles();
     const { t } = useTranslation();
+    const [message, setMessage] = useState('');
+
+    async function sendEmailWantReset (data) {
+        try {
+            const res = await loginService.sendEmailWantReset(data);
+            if(res) {
+                setMessage(res.message)
+            }
+        } catch(error) {
+            console.log(error.response.data.message)
+            setMessage(error.response.data.message)
+        }
+    }
 
     return (
         <Container component="main" maxWidth="xs">
@@ -50,10 +66,13 @@ function ForgotPassword() {
                 </Typography>
                 <Formik
                     initialValues={{ email: '' }}
-                    onSubmit={value => alert(JSON.stringify(value))}
+                    onSubmit={(value) => sendEmailWantReset(value)}
+                    validationSchema={Yup.object({
+                        email: Yup.string().required('required').email('invalid_email')
+                    })}
                 >
                     {formikProps => {
-                        const { validateYupSchema, errors, touched } = formikProps;
+                        const { isValid, touched, isSubmitting } = formikProps;
                         return (
                             <Form className={classes.form}>
                                 <Grid container spacing={2}>
@@ -61,7 +80,7 @@ function ForgotPassword() {
                                         <FastField
                                             name="email"
                                             component={SPTextField}
-                                            type="text"
+                                            type="email"
                                             variant="outlined"
                                             label="email_address"
                                             autoFocus
@@ -70,28 +89,30 @@ function ForgotPassword() {
                                         />
                                     </Grid>
                                 </Grid>
+                                {(message) && <p>{message}</p>}
                                 <Button
                                     type="submit"
                                     fullWidth
                                     variant="contained"
                                     color="primary"
                                     className={classes.submit}
+                                    disabled={!isValid || isSubmitting}
                                 >
                                     {t('reset_password')}
                                 </Button>
-                                <Grid container justify="flex-end">
-                                    <Grid item>
-                                        <Link to={`sign-in`}>
-                                            <LinkUi variant="body2">
-                                                {t('already_have_login_and_password')}
-                                            </LinkUi>
-                                        </Link>
-                                    </Grid>
-                                </Grid>
                             </Form>
                         )
                     }}
                 </Formik>
+                <Grid container justify="flex-end">
+                    <Grid item>
+                        <Link to={`sign-in`}>
+                            <LinkUi variant="body2">
+                                {t('already_have_login_and_password')}
+                            </LinkUi>
+                        </Link>
+                    </Grid>
+                </Grid>
             </div>
         </Container >
     );

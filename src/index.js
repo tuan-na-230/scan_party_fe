@@ -6,12 +6,11 @@ import reportWebVitals from './reportWebVitals';
 import './i18n';
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from 'react-redux';
-import store from './stores/index'
-// import store from './stores/reduxFormStore'
+import stores from './stores';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
+    <Provider store={stores}>
       <BrowserRouter>
         <App />
       </BrowserRouter>

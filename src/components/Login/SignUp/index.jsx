@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -15,10 +15,15 @@ import Container from '@material-ui/core/Container';
 import { useTranslation } from 'react-i18next';
 import { useRouteMatch, Link } from 'react-router-dom';
 import loginService from '../index.service';
+import Alert from '@material-ui/lab/Alert';
+import { FastField, Form, Formik } from 'formik';
+import { SPCheckBox, SPTextField } from '../../form_field';
+import { toast } from 'react-toastify'
+import * as Yup from 'yup';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
-        marginTop: theme.spacing(15),
+        marginTop: theme.spacing(3),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -39,19 +44,16 @@ const useStyles = makeStyles((theme) => ({
 export default function SignUp({ setMode }) {
     const classes = useStyles();
     const { t } = useTranslation();
-    
-    async function handleSubmit (e) {
-        e.preventDefault();
-        const form = e.target;
-        const data = {
-            firstName: form.firstName.value,
-            lastName: form.lastName.value,
-            email: form.email.value,
-            password: form.password.value,
-            confirmPassword: form.confirmPassword.value,
-            emailMarketing: form.emailMarketing.value
+    const [error, setError] = useState('');
+
+    async function handleSubmit(data) {
+        try {
+            const res = await loginService.signUp(data);
+            toast(res.message)
+            setError('')
+        } catch (error) {
+            setError(error.response.data.message)
         }
-        const res = await loginService.signUp(data);
     }
 
     return (
@@ -64,96 +66,121 @@ export default function SignUp({ setMode }) {
                 <Typography component="h1" variant="h5">
                     {t('sign_up')}
                 </Typography>
-                <form className={classes.form} noValidate onSubmit={handleSubmit}>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                autoComplete="fname"
-                                name="firstName"
-                                variant="outlined"
-                                required
-                                fullWidth
-                                id="firstName"
-                                label={t('first_name')}
-                                autoFocus
-                                error={true}
-                                helperText="Incorrect entry."
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                variant="outlined"
-                                required
-                                fullWidth
-                                id="lastName"
-                                label="Last Name"
-                                name={t('last_name')}
-                                autoComplete="lname"
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                variant="outlined"
-                                required
-                                fullWidth
-                                id="email"
-                                label={t('email_address')}
-                                name="email"
-                                autoComplete="email"
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                variant="outlined"
-                                required
-                                fullWidth
-                                name="password"
-                                label={t('password')}
-                                type="password"
-                                id="password"
-                                autoComplete="current-password"
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                variant="outlined"
-                                required
-                                fullWidth
-                                name="confirmPassword"
-                                label={t('confirm_password')}
-                                type="password"
-                                id="confirmPassword"
-                                autoComplete="current-password"
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <FormControlLabel
-                                name="emailMarketing"
-                                control={<Checkbox color="primary" />}
-                                label={t('email_marketing')}
-                            />
-                        </Grid>
+                <Formik
+                    initialValues={{ email: '', firstName: '', lastName: '', password: '', confirmPassword: '', emailMarketing: false }}
+                    onSubmit={value => handleSubmit(value)}
+                    validationSchema={Yup.object({
+                        firstName: Yup.string().required('required'),
+                        lastName: Yup.string().required('required'),
+                        email: Yup.string().required('required').email(),
+                        password: Yup.string()
+                            .min(8, 'password_minimum_8_character')
+                            .required('required')
+                            .matches(/(?=.*[A-Z])/, 'must_have_1_upper'),
+                        confirmPassword: Yup.string()
+                            .min(8, 'minimum_8_char')
+                            .required('required')
+                            .oneOf([Yup.ref('password')], 'password_must_be_the_same'),
+                    })}
+                >
+                    {formikProps => {
+                        const { isValid, touched, isSubmitting } = formikProps;
+                        return (
+                            <Form className={classes.form}>
+                                <Grid container spacing={2}>
+                                    <Grid item xs={12} sm={6}>
+                                        <FastField
+                                            name="firstName"
+                                            component={SPTextField}
+                                            type="text"
+                                            variant="outlined"
+                                            label="first_name"
+                                            autoFocus
+                                            fullWidth
+                                            required
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} sm={6}>
+                                        <FastField
+                                            name="lastName"
+                                            component={SPTextField}
+                                            type="text"
+                                            variant="outlined"
+                                            label="last_name"
+                                            fullWidth
+                                            required
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <FastField
+                                            name="email"
+                                            component={SPTextField}
+                                            type="email"
+                                            variant="outlined"
+                                            label="email_address"
+                                            autoComplete="email"
+                                            fullWidth
+                                            required
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <FastField
+                                            name="password"
+                                            component={SPTextField}
+                                            type="password"
+                                            variant="outlined"
+                                            label="password"
+                                            autoComplete="email"
+                                            fullWidth
+                                            required
+                                            autoComplete="current-password"
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <FastField
+                                            name="confirmPassword"
+                                            component={SPTextField}
+                                            type="password"
+                                            variant="outlined"
+                                            label="confirm_password"
+                                            fullWidth
+                                            required
+                                            autoComplete="current-password"
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <FastField
+                                            name='emailMarketing'
+                                            component={SPCheckBox}
+                                            label='email_marketing'
+                                        />
+                                    </Grid>
+                                </Grid>
+                                {(error) && <Alert severity="error">{error}</Alert>}
+                                <Button
+                                    type="submit"
+                                    fullWidth
+                                    variant="contained"
+                                    color="primary"
+                                    className={classes.submit}
+                                    disabled={!isValid || isSubmitting}
+                                >
+                                    {t('sign_up')}
+                                </Button>
+                            </Form>
+                        )
+                    }}
+                </Formik>
+                <Grid container justify="flex-end">
+                    <Grid item>
+                        <Link to={`sign-in`}>
+                            <LinkUi variant="body2">
+                                {t('already_have_an_account')}
+                            </LinkUi>
+                        </Link>
                     </Grid>
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                    >
-                        {t('sign_up')}
-                    </Button>
-                    <Grid container justify="flex-end">
-                        <Grid item>
-                            <Link to={`sign-in`}>
-                                <LinkUi variant="body2">
-                                    {t('already_have_an_account')}
-                                </LinkUi>
-                            </Link>
-                        </Grid>
-                    </Grid>
-                </form>
+                </Grid>
             </div>
-        </Container>
+        </Container >
     );
 }

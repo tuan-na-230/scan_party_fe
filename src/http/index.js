@@ -18,15 +18,17 @@ class Http {
     }
 
     async httpPost(url, data) {
-        await axios({
+        const res = await axios({
             method: 'post',
             url: setUrl(url),
             data: data
-        }).then((res) => {
+        })
+        .then((res) => {
             return res
         }).catch(err => {
-            console.log(err)
+            return err
         })
+        return res
     }
 
     async httpPut(url, data) {
@@ -48,7 +50,10 @@ class Http {
             url: setUrl(url)
         }).then((res) => {
             return res
-        }).catch(err => {
+        }).then((data) => {
+            return data.json()
+        })
+        .catch(err => {
             console.log(err)
         })
     }

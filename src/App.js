@@ -4,6 +4,7 @@ import '../src/assets/scss/index.scss';
 import { Route, Switch } from 'react-router-dom';
 import Home from './components/Home';
 import ScanCode from './components/ScanCode';
+import DashBoard from './components/DashBoard';
 
 function App() {
   return (
@@ -17,6 +18,9 @@ function App() {
         </Route>
         <Route path="/users">
           <Login />
+        </Route>
+        <Route path="/">
+            <DashBoard />
         </Route>
       </Switch>
     </div>

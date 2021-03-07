@@ -3,14 +3,15 @@ import PropTypes from 'prop-types'
 import { TextField } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 
-function SPTextField({ 
+function SPTextField({
     field, // {name, value, onChange, onBlur}
     form, //also values, set, handle dirty, isValidate
-    variant, required, fullWidth, label, autoFocus, type }) {
-    const { t } = useTranslation()
+    variant, required, margin, fullWidth, label, autoFocus, type, ...otherProps }) {
+    const { t } = useTranslation();
+    const { name } = field
+    const { isValid, errors, touched, dirty } = form;
     return (
         <TextField
-            // autoComplete="fname"
             {...field}
             variant={variant}
             required={required}
@@ -20,7 +21,10 @@ function SPTextField({
             error={false}
             helperText={false}
             type={type}
-            
+            margin={margin}
+            {...otherProps}
+            error={errors[name]}
+            helperText={(!isValid) ? t(errors[name]) : ''}
         />
     )
 }

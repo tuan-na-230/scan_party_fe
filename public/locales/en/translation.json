@@ -13,5 +13,21 @@
     "sign_in": "Sign In",
     "forgot_password": "Forgot password?",
     "dont_have_an_account": "Don't have an account? Sign Up",
-    "remember_me": "Remember me"
+    "remember_me": "Remember me",
+    "required": "Required !",
+    "password_must_be_the_same": "Password must be the same !",
+    "password_minimum_8_character": "Password minimum 8 character !",
+    "join_date": "Join Date",
+    "upload_button": "Upload Button",
+    "profile": "Profile",
+    "the_information_can_be_edited": "The information can be edited",
+    "phone_number": "Phone Number",
+    "facebook_address": "Facebook Address",
+    "company": "Company",
+    "save_profile": "Save Profile",
+    "change_password": "Change Password",
+    "change_password_regularly_for_added_security": "Change password regularly for added security",
+    "current_password": "Current Password",
+    "new_password": "New Password",
+    "change": "Change"
 }

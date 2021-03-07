@@ -18,15 +18,9 @@ function Login() {
                 <Grid item md={6}>
                     <LoginHeader />
                     <Switch>
-                        <Route exact path={`${path}/sign-in`}>
-                            <LoginForm />
-                        </Route>
-                        <Route path={`${path}/sign-up`}>
-                            <SignUp />
-                        </Route>
-                        <Route path={`${path}/forgot-password`}>
-                            <ForgotPassword />
-                        </Route>
+                        <Route exact path={`${path}/sign-in`} component={LoginForm} />
+                        <Route path={`${path}/sign-up`} component={SignUp} />
+                        <Route path={`${path}/forgot-password`} component={ForgotPassword} />
                     </Switch>
                 </Grid>
             </Grid>
