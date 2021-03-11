@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+    Box,
     Container,
     Grid,
     makeStyles
@@ -14,6 +15,9 @@ const useStyles = makeStyles((theme) => ({
         minHeight: '100%',
         paddingBottom: theme.spacing(3),
         paddingTop: theme.spacing(3)
+    },
+    changePassword: {
+        marginTop: 24
     }
 }));
 
@@ -32,8 +36,10 @@ const Account = () => {
                     md={6}
                     xs={12}
                 >
-                    <Profile/>
-                    <ChangePassword />
+                    <Profile />
+                    <Box className={classes.changePassword}>
+                        <ChangePassword />
+                    </Box>
                 </Grid>
                 <Grid
                     item
@@ -42,19 +48,6 @@ const Account = () => {
                     xs={12}
                 >
                     <ProfileDetails />
-                </Grid>
-            </Grid>
-            <Grid
-                container
-                spacing={3}
-            >
-                <Grid
-                    item
-                    lg={4}
-                    md={6}
-                    xs={12}
-                >
-                    <ChangePassword />
                 </Grid>
             </Grid>
         </Container>

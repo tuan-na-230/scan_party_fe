@@ -41,8 +41,7 @@ axiosClient.interceptors.response.use((response) => {
   async (error) => {
     const err = (error.response && error.response.data) || error;
     if (err.error === 'invalid_token') {
-      console.log('signOut')
-      //dispatch(signOut)
+      //dispatch(signOut)l
     }
     return Promise.reject(error);
   });

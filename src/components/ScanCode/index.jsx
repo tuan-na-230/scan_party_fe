@@ -1,34 +1,30 @@
 import React, { useState } from 'react';
 import QrReader from 'react-qr-scanner';
+import { toast } from 'react-toastify';
 
-function ScanCode() {
+function ScanCode({ height, width }) {
     const [result, setResult] = useState('');
-    const [isScanOn, setScanOn] = useState(false)
     function handleScan(data) {
-        data && setResult(data.text)
+        // data && setResult(data.text);
+        data && toast(data.text)
     }
-    const delay = 100;
+    const delay = 500;
     function handleError(err) {
         console.log(err.message)
     }
     const previewStyle = {
-        height: 240,
-        width: 320,
+        height: height || 240,
+        width: width || 320,
     }
-    function switchScan () {
-        setScanOn(!isScanOn)
-    }
-    
+
     return (
         <>
-            <p>Hello to scanCode</p>
-            <button type = "button" onClick={switchScan} >switch</button>
-            {isScanOn && <QrReader
+            <QrReader
                 delay={delay}
                 style={previewStyle}
                 onError={handleError}
                 onScan={handleScan}
-            />}
+            />
             <p>{result}</p>
         </>
     )

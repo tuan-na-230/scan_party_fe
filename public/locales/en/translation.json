@@ -29,5 +29,11 @@
     "change_password_regularly_for_added_security": "Change password regularly for added security",
     "current_password": "Current Password",
     "new_password": "New Password",
-    "change": "Change"
+    "change": "Change",
+    "event_name": "Event Name",
+    "begin_time": "Begin Time",
+    "end_time": "End Time",
+    "manager": "Manager",
+    "facebook": "Facebook",
+    "email": "Email"
 }

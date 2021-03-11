@@ -29,5 +29,11 @@
     "change_password_regularly_for_added_security": "Thay đổi mật khẩu thường xuyên để tăng cường bảo mật",
     "current_password": "Mật khẩu hiện tại",
     "new_password": "Mật khẩu mới",
-    "change": "Thay đổi"
+    "change": "Thay đổi",
+    "event_name": "Event Name",
+    "begin_time": "Begin Time",
+    "end_time": "End Time",
+    "manager": "Manager",
+    "facebook": "Facebook",
+    "email": "Email"
 }

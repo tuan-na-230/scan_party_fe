@@ -17,12 +17,17 @@ import {
 import loginService from '../../Login/index.service';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
+import { changeUser } from '../../../stores/slices/authSlice';
+import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles(() => ({
     root: {},
     avatar: {
         height: 100,
         width: 100
+    },
+    name: {
+        marginTop: 10
     }
 }));
 
@@ -30,6 +35,7 @@ const Profile = () => {
     const classes = useStyles();
     const initUser = { ...JSON.parse(localStorage.getItem('user')) };
     const { t } = useTranslation();
+    const dispatch = useDispatch();
     const [user, setUser] = useState(initUser);
 
     async function handleChange(e) {
@@ -42,6 +48,7 @@ const Profile = () => {
             if (res) {
                 localStorage.setItem('user', JSON.stringify(res.user))
                 setUser({ ...JSON.parse(localStorage.getItem('user')) })
+                dispatch(changeUser())
                 toast(res.message)
             }
         } catch (error) {
@@ -64,10 +71,11 @@ const Profile = () => {
                     <Typography
                         color="textPrimary"
                         gutterBottom
-                        variant="h3"
+                        variant="h4"
                         align="center"
+                        className={classes.name}
                     >
-                        {user.name}
+                        {`${user.firstName} ${user.lastName}`}
                     </Typography>
                     <Typography
                         color="textSecondary"

@@ -20,20 +20,23 @@ import {
   ShoppingBag as ShoppingBagIcon,
   User as UserIcon,
   UserPlus as UserPlusIcon,
-  Users as UsersIcon
+  Users as UsersIcon,
+  Airplay as AirplayIcon,
+  FileMinus as FileIcon
 } from 'react-feather';
 import NavItem from './NavItem';
+import { useSelector } from 'react-redux';
 
-const user = {
-  avatar: '/static/images/avatars/avatar_6.png',
-  ...JSON.parse(localStorage.getItem('user')) 
-};
+// const user = {
+//   avatar: '/static/images/avatars/avatar_6.png',
+//   ...JSON.parse(localStorage.getItem('user')) 
+// };
 
 // const user = JSON.parse(localStorage.getItem('user'))
 
 const items = [
   {
-    href: '/',
+    href: '',
     icon: BarChartIcon,
     title: 'Dashboard'
   },
@@ -45,17 +48,17 @@ const items = [
   {
     href: '/event',
     icon: ShoppingBagIcon,
-    title: 'Products'
+    title: 'Event'
   },
   {
-    href: '/settings',
-    icon: SettingsIcon,
-    title: 'Settings'
+    href: '/device-test',
+    icon: AirplayIcon,
+    title: 'Device test'
   },
   {
-    href: '/login',
-    icon: LockIcon,
-    title: 'Login'
+    href: '/store',
+    icon: FileIcon,
+    title: 'My Store'
   },
   {
     href: '/register',
@@ -88,6 +91,7 @@ const useStyles = makeStyles(() => ({
 const NavBar = ({ onMobileClose, openMobile }) => {
   const classes = useStyles();
   const location = useLocation();
+  const user = useSelector(state => state.auth.user);
 
   useEffect(() => {
     if (openMobile && onMobileClose) {

@@ -20,11 +20,11 @@ export const authSlice = createSlice({
             localStorage.removeItem('user')
         },
         changeUser: (state) => {
-            state.user = localStorage.getItem('user') || {}
+            state.user = JSON.parse(localStorage.getItem('user')) || {}
         }
     }
 });
 
-export const { setAccessToken, setRefreshToken } = authSlice.actions;
+export const { setAccessToken, setRefreshToken , changeUser} = authSlice.actions;
 
 export default authSlice.reducer;
