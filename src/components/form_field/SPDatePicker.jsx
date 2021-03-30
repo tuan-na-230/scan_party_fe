@@ -1,5 +1,5 @@
 import 'date-fns';
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types'
 import {
     MuiPickersUtilsProvider,
@@ -13,22 +13,24 @@ function SPDatePicker({
     form, //also values, set, handle dirty, isValidate
     variant, required, margin, fullWidth, label, autoFocus, type, ...otherProps }) {
     const { t } = useTranslation();
-    const { name } = field
+    const { name, value } = field
     const { isValid, errors, touched, dirty } = form;
 
+    const [selectedDate, setSelectedDate] = useState(value || new Date())
+
     const handleDateChange = (value) => {
-        console.log(value)
-        field.value = value
+        setSelectedDate(value)
+        value = value
     }
 
     return (
         <MuiPickersUtilsProvider utils={DateFnsUtils} >
             <KeyboardDatePicker
                 disableToolbar
-                variant="inline"
+                variant={variant}
                 format="MM/dd/yyyy"
                 label={t(`${label}`)}
-                value={field.value}
+                value={selectedDate}
                 onChange={handleDateChange}
                 KeyboardButtonProps={{
                     'aria-label': 'change date',

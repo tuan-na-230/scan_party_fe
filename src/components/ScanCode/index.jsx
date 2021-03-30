@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import QrReader from 'react-qr-scanner';
 import { toast } from 'react-toastify';
 
-function ScanCode({ height, width }) {
+function ScanCode({ height, width, scanTicket }) {
     const [result, setResult] = useState('');
     function handleScan(data) {
         // data && setResult(data.text);
-        data && toast(data.text)
+        data && scanTicket(data)
+        // data && toast(data.text)
     }
     const delay = 500;
     function handleError(err) {

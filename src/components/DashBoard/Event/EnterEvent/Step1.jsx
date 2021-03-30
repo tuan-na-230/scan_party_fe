@@ -3,8 +3,8 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { Formik, Form, FastField } from 'formik';
 import * as Yup from 'yup';
-import { SPDatePicker, SPTextField } from '../../../form_field';
-import { Button } from '@material-ui/core';
+import { SPDatePicker, SPEditor, SPTextField } from '../../../form_field';
+import { Box, Button, useTheme } from '@material-ui/core';
 
 export default function Step1({ data, handleSubmit }) {
     return (
@@ -13,8 +13,17 @@ export default function Step1({ data, handleSubmit }) {
                 Thông tin sự kiện
             </Typography>
             <Formik
-                initialValues={{...data} || {}}
+                initialValues={{ ...data } || {}}
                 onSubmit={value => handleSubmit(value)}
+                validationSchema={Yup.object({
+                    name: Yup.string().required('required'),
+                    beginTime: Yup.string().required('required'),
+                    endTime: Yup.string().required('required'),
+                    address: Yup.string().required('required'),
+                    company: Yup.string().required('required'),
+                    manager: Yup.string().required('required'),
+                    phoneNumber: Yup.string().required('required').matches(/^[0-9]+$/, 'wrong_format_number'),
+                })}
             >
                 {formikProps => {
                     const { isValid, touched, isSubmitting, isFocus } = formikProps;
@@ -32,49 +41,38 @@ export default function Step1({ data, handleSubmit }) {
                                         autoComplete="eventName"
                                     />
                                 </Grid>
-                                <Grid item xs={12} sm={12}>
-                                    {/* <FastField
-                                        name='date'
-                                        component={SPDatePicker}
-                                        // required
-                                        fullWidth
-                                        label='date'
-                                    /> */}
-                                </Grid>
                                 <Grid item xs={6} sm={6}>
-                                    <FastField
-                                        name='date'
-                                        component={SPTextField}
-                                        type='time'
-                                        required
-                                        fullWidth
-                                        label={'begin_time'}
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                    />
+                                    <Grid item xs={12} sm={12}>
+                                        <FastField
+                                            name='beginTime'
+                                            component={SPTextField}
+                                            type="datetime-local"
+                                            required
+                                            fullWidth
+                                            label='begin_time'
+                                        />
+                                    </Grid>
                                 </Grid>
                                 <Grid item xs={6}>
-                                    <FastField
-                                        name='beginTime'
-                                        component={SPTextField}
-                                        type='time'
-                                        required
-                                        fullWidth
-                                        label={'begin_time'}
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                    />
+                                    <Grid item xs={12} sm={12}>
+                                        <FastField
+                                            name='endTime'
+                                            component={SPTextField}
+                                            type="datetime-local"
+                                            required
+                                            fullWidth
+                                            label='end_time'
+                                        />
+                                    </Grid>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <FastField
-                                        name='endTime'
+                                        name='address'
                                         component={SPTextField}
                                         type='text'
                                         required
                                         fullWidth
-                                        label={'end_time'}
+                                        label={'address'}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -109,6 +107,15 @@ export default function Step1({ data, handleSubmit }) {
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
                                     <FastField
+                                        name='email'
+                                        component={SPTextField}
+                                        type='text'
+                                        fullWidth
+                                        label='email'
+                                    />
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <FastField
                                         name='facebook'
                                         component={SPTextField}
                                         type='text'
@@ -116,22 +123,24 @@ export default function Step1({ data, handleSubmit }) {
                                         label='facebook'
                                     />
                                 </Grid>
-                                <Grid item xs={12} sm={6}>
+                                <Grid item xs={12} sm={12}>
                                     <FastField
-                                        name='email'
-                                        component={SPTextField}
-                                        type='text'
+                                        name='description'
+                                        component={SPEditor}
                                         required
                                         fullWidth
-                                        label='email'
+                                        label='Description'
                                     />
                                 </Grid>
                             </Grid>
-                            <Button type="submit"
-                                variant="contained"
-                                color="primary">
-                                Ok
-                            </Button>
+                            <Box style={{display: 'flex', justifyContent: 'flex-end', marginTop: '2rem'}}>
+                                <Button type="submit"
+                                    variant="contained"
+                                    color="primary"
+                                >
+                                    Tiếp
+                                </Button>
+                            </Box>
                         </Form>
                     )
                 }}

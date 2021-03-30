@@ -1,47 +1,76 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import Grid from '@material-ui/core/Grid';
-
-const products = [
-  { name: 'Product 1', desc: 'A nice thing', price: '$9.99' },
-  { name: 'Product 2', desc: 'Another thing', price: '$3.45' },
-  { name: 'Product 3', desc: 'Something else', price: '$6.51' },
-  { name: 'Product 4', desc: 'Best thing of all', price: '$14.11' },
-  { name: 'Shipping', desc: '', price: 'Free' },
-];
-const addresses = ['1 Material-UI Drive', 'Reactville', 'Anytown', '99999', 'USA'];
-const payments = [
-  { name: 'Card type', detail: 'Visa' },
-  { name: 'Card holder', detail: 'Mr John Smith' },
-  { name: 'Card number', detail: 'xxxx-xxxx-xxxx-1234' },
-  { name: 'Expiry date', detail: '04/2024' },
-];
+import TextField from '@material-ui/core/TextField';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import { FastField, Form, Formik } from 'formik';
+import { SPTextField } from '../../../form_field';
+import { BottomNavigation, BottomNavigationAction, Button, Paper, Box, makeStyles } from '@material-ui/core';
+import BackupIcon from '@material-ui/icons/Backup';
+import PanToolIcon from '@material-ui/icons/PanTool';
+import ListAltIcon from '@material-ui/icons/ListAlt';
+import eventService from '../eventService';
+import { toast } from 'react-toastify';
+import ItemStep3 from './ItemStep3';
 
 const useStyles = makeStyles((theme) => ({
-  listItem: {
-    padding: theme.spacing(1, 0),
+  root: {
+    flexGrow: 1,
   },
-  total: {
-    fontWeight: 700,
+  paper: {
+    height: 300,
+    padding: '2rem',
+    color: 'white',
+    textAlign: 'center',
+    fontSize: '13px',
+    '&:hover': {
+      cursor: 'pointer'
+    }
   },
-  title: {
-    marginTop: theme.spacing(2),
+  control: {
+    padding: theme.spacing(2),
   },
+  qrCode: {
+    width: 64,
+    height: 64
+  }
 }));
 
-export default function Step3() {
+export default function Step3({ dataStep1, dataStep2, dataStep3, setDataSet3 }) {
   const classes = useStyles();
+  const guestData = dataStep2 ? dataStep2[0] : {};
+  const [listTemplate, setListTemplate] = React.useState([]);
+  
+  React.useEffect(() => {
+    getListTemplate()
+  }, [])
+
+  async function getListTemplate () {
+    try {
+      const res = await eventService.getListTemplate();
+      setListTemplate(res);
+      setDataSet3(dataStep3 || res[0])
+    } catch (error) {
+      toast(error.response.data.message)
+    }
+  }
+
 
   return (
-    <React.Fragment>
+    < React.Fragment >
       <Typography variant="h6" gutterBottom>
-        Kiểm tra
-      </Typography>
-      
-    </React.Fragment>
+        Tạo vé mời
+    </Typography>
+      <Box>
+        <Grid container spacing={2}>
+          {listTemplate.map(ele => (
+            <Grid item lg={3} xs={12}>
+            <ItemStep3 key={ele.id} data={ele} selected={dataStep3} handleSelect={setDataSet3} dataStep1={dataStep1} />
+            </ Grid>
+          ))}
+        </Grid>
+      </Box>
+    </React.Fragment >
   );
 }

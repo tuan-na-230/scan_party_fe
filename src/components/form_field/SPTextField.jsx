@@ -9,7 +9,8 @@ function SPTextField({
     variant, required, margin, fullWidth, label, autoFocus, type, ...otherProps }) {
     const { t } = useTranslation();
     const { name } = field
-    const { isValid, errors, touched, dirty } = form;
+    const { isValid, errors, touched, dirty, validateOnMount } = form;
+
     return (
         <TextField
             {...field}

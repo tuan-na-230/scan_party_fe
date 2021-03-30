@@ -49,7 +49,6 @@ function ForgotPassword() {
                 setMessage(res.message)
             }
         } catch(error) {
-            console.log(error.response.data.message)
             setMessage(error.response.data.message)
         }
     }

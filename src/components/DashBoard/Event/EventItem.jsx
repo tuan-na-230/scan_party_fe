@@ -6,15 +6,17 @@ import {
     BookOpen as BookIcon,
     Clock as ClockIcon
 } from 'react-feather'
+import moment from 'moment';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        // backgroundColor: theme.palette.background.dark,
         display: 'block',
         minHeight: '100%',
         width: '100%',
-        height: '200px'
-        // margin: theme.spacing(8),
+        height: '200px',
+        '&:hover': {
+            cursor: 'pointer'
+        }
     },
     wrapper: {
         position: 'relative',
@@ -39,7 +41,8 @@ const useStyles = makeStyles((theme) => ({
         top: '25px',
         paddingTop: theme.spacing(3),
         padding: theme.spacing(1),
-        textAlight: 'center'
+        textAlight: 'center',
+        minWidth: '100%'
     },
     nameEvent: {
         fontSize: 18,
@@ -69,8 +72,35 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function EventItem() {
+function EventItem({ data }) {
     const classes = useStyles();
+
+    function showLessDate(time) {
+        const beginTime = moment(time.beginTime).format("MM/DD/YY");
+        const endTime = moment(time.endTime).format("MM/DD/YY");
+        const now = moment()
+        const dayRemain = -now.diff(beginTime, "days");
+        if(dayRemain > 0) {
+            return `${dayRemain} ngày còn lại`;
+        }
+        if(dayRemain == 0) {
+            const hourRemain = -now.diff(beginTime, "hours");
+            if(hourRemain > 0) {
+                return `${hourRemain} giờ còn lại`;
+            }
+            if(hourRemain === 0) {
+                return `Đang diễn ra`;
+            }
+            if(hourRemain < 0) {
+                return 'Đã tổ chức'
+            }
+        }
+        if(dayRemain < 0) {
+            return 'Đã tổ chức'
+        }
+        
+    }
+
     return (
         <Box className={classes.root}>
             <Box className={classes.wrapper}>
@@ -89,7 +119,7 @@ function EventItem() {
                                 align="center"
                                 className={classes.nameEvent}
                             >
-                                sự kiện chào mừng tân sinh viên
+                                {data.name || 'sự kiện chào mừng tân sinh viên'}
                             </Typography>
                             <Typography
                                 color="textPrimary"
@@ -97,7 +127,7 @@ function EventItem() {
                                 align="center"
                                 className={classes.addressEvent}
                             >
-                                Ba Đình, Hà Nội
+                                {data.address || 'Ba Đình, Hà Nội'}
                             </Typography>
                         </Grid>
                     </Grid>
@@ -112,7 +142,7 @@ function EventItem() {
                         <Grid item md={6} xs={6}>
                             <Box className={classes.dateLeft}>
                                 <ClockIcon />
-                                <span>6 ngày còn lại</span>
+                                <span>{data && showLessDate(data.time)}</span>
                             </Box>
                         </Grid>
                     </Grid>
