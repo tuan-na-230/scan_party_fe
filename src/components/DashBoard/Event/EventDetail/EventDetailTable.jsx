@@ -1,27 +1,79 @@
-import React from 'react';
-import { toast } from 'react-toastify';
-import EnhancedTable from '../../../common/table';
-import usePaginationAsync from '../../../hook/usePaginationAsync';
-import eventService from '../eventService';
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@material-ui/core";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import EnhancedTable from "../../../common/table";
+import usePaginationAsync from "../../../hook/usePaginationAsync";
+import eventService from "../eventService";
+import ModalGuestInfo from "./ModalGuestInfo";
 
 export default function EventDetailTable({ eventId }) {
-    async function getListTicket(params) {
-        try {
-            const res = await eventService.getListTicket(params, eventId);
-            return res;
-        } catch (error) {
-            toast(error.response.data.message);
-        }
-        return null;
+  const [ticketId, setTicketId] = useState();
+  const [isShowModalGuestInfo, setShowModalGuestInfo] = useState(false);
+  async function getListTicket(params) {
+    try {
+      const res = await eventService.getListTicket(params, eventId);
+      return res;
+    } catch (error) {
+      toast(error.response.data.message);
     }
+    return null;
+  }
 
-    const { Pagination, loading, fetchData, onChange, data } = usePaginationAsync(
-        { apiService: getListTicket }
-    )
-    return (
-        <>
-            <EnhancedTable />
-            <Pagination />
-        </>
-    )
+  function showModalGuestInfo(ticketId) {
+    setTicketId(ticketId);
+    setShowModalGuestInfo(true);
+  }
+
+  const {
+    Pagination,
+    loading,
+    fetchData,
+    onChange,
+    data,
+  } = usePaginationAsync({ apiService: getListTicket });
+  return (
+    <>
+      <ModalGuestInfo
+        ticketId={ticketId}
+        isShow={isShowModalGuestInfo}
+        setShow={setShowModalGuestInfo}
+      />
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell align="right">Stt</TableCell>
+              <TableCell align="right">Id</TableCell>
+              <TableCell align="right">Value</TableCell>
+              <TableCell align="right">Status</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {data.map((row, index) => (
+              <TableRow key={row._id}>
+                <TableCell align="right">{index + 1}</TableCell>
+                <TableCell align="right">{row._id}</TableCell>
+                <TableCell align="right">
+                  <Link onClick={() => showModalGuestInfo(row._id)}>
+                    {row.value}
+                  </Link>
+                </TableCell>
+                <TableCell align="right">{row.status}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <Pagination />
+    </>
+  );
 }
