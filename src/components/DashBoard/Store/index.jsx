@@ -6,6 +6,8 @@ import Pagination from '@material-ui/lab/Pagination';
 import storeService from './storeService';
 import { toast } from 'react-toastify';
 import ItemImage from './ItemImage';
+import ListExcel from './ListExcel';
+import ListImage from './ListImage';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -22,35 +24,17 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+function a11yProps(index) {
+    return {
+      id: `full-width-tab-${index}`,
+      'aria-controls': `full-width-tabpanel-${index}`,
+    };
+  }
+
 export default function Store() {
     const classes = useStyles();
-    const [viewMode, setViewMode] = React.useState(false);
-    const [listExcel, setListExcel] = React.useState([]);
-    const [listImage, setListImage] = React.useState([]);
+    const [viewMode, setViewMode] = React.useState(0);
     const user = JSON.parse(localStorage.getItem('user'));
-
-    useEffect(() => {
-        getlistExcel();
-        getlistImage();
-    }, [])
-
-    async function getlistExcel() {
-        try {
-            const listExcel = await storeService.getFileExcel(user._id);
-            setListExcel(listExcel);
-        } catch (error) {
-            toast(error.response.data.message);
-        }
-    }
-
-    async function getlistImage() {
-        try {
-            const listImage = await storeService.getFileImage(user._id);
-            setListImage(listImage);
-        } catch (error) {
-            toast(error.response.data.message);
-        }
-    }
 
     return (
         <Paper elevation={24} className={classes.root} >
@@ -59,32 +43,21 @@ export default function Store() {
                     <AppBar position="static" color="default">
                         <Tabs
                             value={viewMode}
-                            onChange={() => { setViewMode(!viewMode) }}
+                            onChange={(event, newValue) => { setViewMode(newValue) }}
                             indicatorColor="primary"
                             textColor="primary"
                             variant="fullWidth"
-                            aria-label="full width tabs example"
+                            aria-label="store"
                         >
-                            <Tab label="Excel" />
-                            <Tab label="Image" />
+                            <Tab label="Excel" {...a11yProps(0)} />
+                            <Tab label="Image" {...a11yProps(0)} />
                         </Tabs>
                     </AppBar>
                 </Grid>
             </Grid>
-            {viewMode
-                ? <Box>
-                    {listExcel.map(ele => (
-                        <StoreItem data={ele} />
-                    ))}
-                </Box>
-                : <Box>
-                    {listImage.map(ele => (
-                        <ItemImage data={ele} />
-                    ))}
-                </Box>}
-            <Box className={classes.pagination}>
-                <Pagination count={10} shape="rounded" />
-            </Box>
+            {viewMode === 0
+                ? <ListExcel userId={user._id} />
+                : <ListImage userId={user._id} />}
 
         </Paper>
     )

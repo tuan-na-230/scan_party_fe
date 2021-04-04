@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     fontSize: '13px',
     '&:hover': {
-      cursor: 'pointer'
+      cursor: 'pointer'  
     }
   },
   control: {

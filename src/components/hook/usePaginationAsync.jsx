@@ -51,9 +51,9 @@ export default function usePaginationAsync({
       console.log(content, pagination);
       setData(content);
       setPagination({
-        size: parseInt(pagination.size),
-        page: parseInt(pagination.page),
-        total: parseInt(pagination.total),
+        size: parseInt(pagination?.size),
+        page: parseInt(pagination?.page),
+        total: parseInt(pagination?.total),
       });
     }
     return res;

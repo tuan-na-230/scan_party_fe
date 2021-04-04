@@ -1,6 +1,8 @@
 import {
   Backdrop,
+  Box,
   Fade,
+  Grid,
   makeStyles,
   Modal,
   Paper,
@@ -9,6 +11,9 @@ import {
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import eventService from "../eventService";
+import {
+  XCircle as CloseIcon
+} from 'react-feather'
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -17,11 +22,22 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
   },
   paper: {
-    backgroundColor: theme.palette.background.paper,
-    border: "2px solid #000",
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
+    backgroundColor: "white",
+    width: "300px",
+    height: "300px"
   },
+  closeIcon: {
+    '&:hover': {
+      cursor: 'pointer'
+    }
+  },
+  ModalHeader: {
+    padding: theme.spacing(1),
+    width: '100%'
+  },
+  modalContent: {
+    padding: theme.spacing(1),
+  }
 }));
 
 export default function ModalGuestInfo({ isShow, setShow, ticketId }) {
@@ -60,12 +76,22 @@ export default function ModalGuestInfo({ isShow, setShow, ticketId }) {
       <Paper
         in={isShow}
         style={{ backgroundColor: "white", width: "300px", height: "300px" }}
+        className={classes.paper}
       >
-        <Typography variant="h4">Customer Info</Typography>
-        {customerInfo?.info &&
-          Object.keys(customerInfo.info).map((ele) => (
-            <Typography>{`${ele}: ${customerInfo.info[ele]}`}</Typography>
-          ))}
+        <Grid container>
+          <Grid item className={classes.ModalHeader}>
+            <Box style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <Typography variant="h6" style={{ display: 'block' }}>Customer Info</Typography>
+              <CloseIcon className={classes.closeIcon} onClick={handleClose}/>
+            </Box>
+          </Grid>
+          <Grid item className={classes.modalContent}>
+            {customerInfo?.info &&
+              Object.keys(customerInfo.info).map((ele) => (
+                <Typography>{`${ele}: ${customerInfo.info[ele]}`}</Typography>
+              ))}
+          </Grid>
+        </Grid>
       </Paper>
     </Modal>
   );

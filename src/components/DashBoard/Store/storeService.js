@@ -4,14 +4,14 @@ import axiosClient from '../../../http/axiosClient';
 const urlBase = 'api/v1';
 
 class StoreService {
-    async getFileExcel (id) {
-        const endpoint = `${urlBase}/files/excel/${id}`
-        return axiosClient.get(endpoint)
+    async getFileExcel(params, userId) {
+        const endpoint = `${urlBase}/files/excel/${userId}`
+        return axiosClient.get(endpoint, { params })
     }
 
-    async getFileImage (id) {
-        const endpoint = `${urlBase}/files/image/${id}`
-        return axiosClient.get(endpoint)
+    async getFileImage(params, userId) {
+        const endpoint = `${urlBase}/files/image/${userId}`
+        return axiosClient.get(endpoint,{ params })
     }
 }
 

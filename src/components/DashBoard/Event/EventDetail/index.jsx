@@ -101,14 +101,7 @@ function EventDetail() {
                             <EventDetailTable eventId={params.eventId}/>
                         </Paper>
                     </Grid>
-                    <Grid item lg={12} xs={12}>
-                        <Paper elevation={3} className="p-1">
-                            <Typography variant="h5">Management Information</Typography>
-                            
-                        </Paper>
-                    </Grid>
                 </Grid>
-
             </Box>
         </>
     )
