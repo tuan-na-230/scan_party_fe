@@ -38,6 +38,11 @@ class EventService {
     const endpoint = `${urlBase}/guests/${ticketId}`;
     return axiosClient.get(endpoint);
   }
+
+  async delEvent(eventId) {
+    const endpoint = `${urlBase}/events/${eventId}`;
+    return axiosClient.delete(endpoint);
+  }
 }
 
 const eventService = new EventService();
