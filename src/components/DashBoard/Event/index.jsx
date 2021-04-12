@@ -1,7 +1,8 @@
-import { Box, Button, Container, Grid, makeStyles } from '@material-ui/core';
+import { Box, Button, Container, Grid, makeStyles, Paper } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
+import usePaginationAsync from '../../hook/usePaginationAsync';
 import EnterValue from './EnterEvent';
 import EventItem from './EventItem';
 import eventService from './eventService';
@@ -15,33 +16,41 @@ const useStyles = makeStyles((theme) => ({
     },
     titleHeader: {
         fontSize: 24
+    },
+    listEvent: {
+        width: '100%',
+        padding: theme.spacing(3),
+        marginTop: theme.spacing(3)
     }
 }));
 
 function Event() {
     const classes = useStyles();
     const [showEnterValue, setShowEnterForm] = useState(false);
-    const [listEvent, setListEvent] = useState([]);
     const history = useHistory();
 
     useEffect(() => {
         getListEvent()
-    }, [])
+    }, []);
 
-    async function getListEvent() {
+    const {
+        Pagination,
+        loading,
+        fetchData,
+        onChange,
+        data,
+    } = usePaginationAsync({ apiService: getListEvent, pageSizeDefault: 10 });
+
+    async function getListEvent(params) {
         try {
-            const listEvent = await eventService.getListEvent();
+            const listEvent = await eventService.getListEvent(params);
             if (listEvent) {
-                console.log(listEvent)
-                setListEvent(listEvent)
+                return listEvent
             }
         } catch (error) {
             toast(error.response.data.message)
         }
-    }
-
-    function toPageDetailEvent(eventId) {
-        history.push(`/event/${eventId}`)
+        return null;
     }
 
     return (
@@ -75,23 +84,29 @@ function Event() {
                     </Button>
                     </Grid>
                 </Grid>
-                <Grid
-                    container
-                    spacing={3}
-                >
-                    {listEvent.map(ele => (
-                        <Grid
-                            item
-                            lg={4}
-                            md={3}
-                            xs={12}
-                            key={ele._id}
-                            onClick={() => toPageDetailEvent(ele._id)}
-                        >
-                            <EventItem data={ele}/>
-                        </Grid>
-                    ))}
-                </Grid>
+                <Paper elevation={3} className={classes.listEvent}>
+                    <Grid
+                        container
+                        spacing={3}
+                    >
+                        {data.map(ele => (
+                            <Grid
+                                item
+                                lg={4}
+                                md={3}
+                                xs={12}
+                                key={ele._id}
+                               
+                            >
+                                <EventItem data={ele} />
+                            </Grid>
+                        ))}
+                        <Box style={{width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
+                            <Pagination />
+                        </Box>
+                    </Grid>
+                </Paper>
+
             </Container>
         </>
     )

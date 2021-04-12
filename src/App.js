@@ -5,22 +5,27 @@ import { Route, Switch } from 'react-router-dom';
 import Home from './components/Home';
 import ScanCode from './components/ScanCode';
 import DashBoard from './components/DashBoard';
+import NotFound from './components/NotFound';
+import Guest from './components/Guest';
 
 function App() {
   return (
     <div>
       <Switch>
-        <Route path="/home">
-          <Home />
-        </Route>
         <Route path="/scan">
           <ScanCode />
         </Route>
         <Route path="/users">
           <Login />
         </Route>
-        <Route path="/">
-            <DashBoard />
+        <Route path="/home">
+          <DashBoard />
+        </Route>
+        <Route path="/guests/:eventId">
+          <Guest />
+        </Route>
+        <Route>
+          <NotFound />
         </Route>
       </Switch>
     </div>

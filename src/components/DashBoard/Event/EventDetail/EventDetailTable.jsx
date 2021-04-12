@@ -14,6 +14,9 @@ import EnhancedTable from "../../../common/table";
 import usePaginationAsync from "../../../hook/usePaginationAsync";
 import eventService from "../eventService";
 import ModalGuestInfo from "./ModalGuestInfo";
+import QRCode from 'qrcode.react'
+import moment from "moment";
+
 
 export default function EventDetailTable({ eventId }) {
   const [ticketId, setTicketId] = useState();
@@ -42,18 +45,19 @@ export default function EventDetailTable({ eventId }) {
   } = usePaginationAsync({ apiService: getListTicket });
   return (
     <>
-      <ModalGuestInfo
+     {isShowModalGuestInfo &&  <ModalGuestInfo
         ticketId={ticketId}
         isShow={isShowModalGuestInfo}
         setShow={setShowModalGuestInfo}
-      />
+      />}
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
             <TableRow>
               <TableCell align="right">Stt</TableCell>
-              <TableCell align="right">Id</TableCell>
               <TableCell align="right">Value</TableCell>
+              <TableCell align="right">Ngày tạo</TableCell>
+              <TableCell align="right">Ngày hết hạn</TableCell>
               <TableCell align="right">Status</TableCell>
             </TableRow>
           </TableHead>
@@ -61,12 +65,13 @@ export default function EventDetailTable({ eventId }) {
             {data.map((row, index) => (
               <TableRow key={row._id}>
                 <TableCell align="right">{index + 1}</TableCell>
-                <TableCell align="right">{row._id}</TableCell>
                 <TableCell align="right">
                   <Link onClick={() => showModalGuestInfo(row._id)}>
-                    {row.value}
+                    <QRCode value={row.value} size={64}/>
                   </Link>
                 </TableCell>
+                <TableCell align="right">{moment(row.dateCreated).format("DD/MM/YYYY")}</TableCell>
+                <TableCell align="right">{moment(row.expirationDate).format("DD/MM/YYYY")}</TableCell>
                 <TableCell align="right">{row.status}</TableCell>
               </TableRow>
             ))}

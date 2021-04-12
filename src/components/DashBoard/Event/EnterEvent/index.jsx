@@ -105,6 +105,7 @@ export default function EnterValue({ setShowEnterForm }) {
           phoneNumber: valueStep1.phoneNumber,
           facebook: valueStep1.facebook,
         },
+        description: valueStep1.description
       },
       guestInfo: [...valueStep2],
       ticketTemplateInfo: {

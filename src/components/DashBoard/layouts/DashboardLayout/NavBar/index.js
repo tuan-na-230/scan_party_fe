@@ -36,37 +36,37 @@ import { useSelector } from 'react-redux';
 
 const items = [
   {
-    href: '',
+    href: '/home',
     icon: BarChartIcon,
     title: 'Dashboard'
   },
   {
-    href: '/account',
+    href: '/home/account',
     icon: UsersIcon,
     title: 'Account'
   },
   {
-    href: '/event',
+    href: '/home/event',
     icon: ShoppingBagIcon,
     title: 'Event'
   },
   {
-    href: '/device-test',
+    href: '/home/device-test',
     icon: AirplayIcon,
     title: 'Device test'
   },
   {
-    href: '/store',
+    href: '/home/store',
     icon: FileIcon,
     title: 'My Store'
   },
   {
-    href: '/register',
+    href: '/home/register',
     icon: UserPlusIcon,
     title: 'Register'
   },
   {
-    href: '/404',
+    href: '/home/404',
     icon: AlertCircleIcon,
     title: 'Error'
   }

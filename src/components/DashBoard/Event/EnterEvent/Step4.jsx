@@ -30,7 +30,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Step4({ dataStep1, dataStep2, dataStep3, infoExcel }) {
   const classes = useStyles();
-  console.log(infoExcel)
 
   return (
     <React.Fragment>

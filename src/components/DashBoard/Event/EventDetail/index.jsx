@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  Container,
   Grid,
   makeStyles,
   Paper,
@@ -11,7 +10,7 @@ import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
 import { toast } from "react-toastify";
-import SPPagination from "../../../common/pagination";
+import ChatRoomContent from "../../../ChatRoom/ChatRoomContent";
 import eventService from "../eventService";
 import EventDetailTable from "./EventDetailTable";
 
@@ -34,9 +33,6 @@ function EventDetail() {
 
   const [detailEvent, setDetailEvent] = useState([]);
 
-  const [page, setPage] = useState(0);
-  const [size, setSize] = useState(10);
-
   useEffect(() => {
     getDetailEvent();
   }, []);
@@ -44,7 +40,6 @@ function EventDetail() {
   async function getDetailEvent() {
     try {
       const res = await eventService.getDetailEvent(params.eventId);
-      console.log(res);
       setDetailEvent(res);
     } catch (error) {
       toast(error.response.data.message);
@@ -60,14 +55,6 @@ function EventDetail() {
     } catch (error) {
       toast(error.response.data.message);
     }
-  }
-
-  function onChangeRowsPerPage(e) {
-    setSize(e.target.value);
-  }
-
-  function onChangePage(e, newPage) {
-    setPage(newPage);
   }
 
   return (
@@ -135,18 +122,25 @@ function EventDetail() {
           </Grid>
           <Grid item lg={12} xs={12}>
             <Paper elevation={3} className="p-1">
-              <Typography variant="h5">Management Information</Typography>
+              <Typography variant="h5">Ticket and Guest Information</Typography>
               <EventDetailTable eventId={params.eventId} />
             </Paper>
           </Grid>
-          <Grid item lg={12} xs={12} justify="flex-end">
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={handleDelEvent}
-            >
-              Xóa sự kiện
+          <Grid item lg={12} xs={12}>
+            <Paper elevation={3} className="p-1">
+              <ChatRoomContent chatId={detailEvent?.chat} aliasName={"Quản trị viên"}/>
+            </Paper>
+          </Grid>
+          <Grid item lg={12} xs={12}>
+            <Box style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={handleDelEvent}
+              >
+                Xóa sự kiện
             </Button>
+            </Box>
           </Grid>
         </Grid>
       </Box>

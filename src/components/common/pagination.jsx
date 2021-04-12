@@ -8,6 +8,7 @@ export default function SPPagination({
   onChangePage,
   onChangeRowsPerPage,
 }) {
+  console.log('page', page)
   return (
     <TablePagination
       rowsPerPageOptions={[1, 5, 10, 25]}

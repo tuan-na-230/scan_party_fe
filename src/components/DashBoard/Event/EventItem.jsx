@@ -1,5 +1,5 @@
 import { Box, Button, Container, Grid, makeStyles, Paper, Tooltip, Typography, LinearProgress } from '@material-ui/core';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ticket from '../../../assets/images/ticket.png';
 import chat from '../../../assets/images/chat.png';
 import {
@@ -7,6 +7,9 @@ import {
     Clock as ClockIcon
 } from 'react-feather'
 import moment from 'moment';
+import eventService from './eventService';
+import { toast } from 'react-toastify';
+import { useHistory } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -74,35 +77,67 @@ const useStyles = makeStyles((theme) => ({
 
 function EventItem({ data }) {
     const classes = useStyles();
+    const [count, setCount] = useState();
+    const history = useHistory();
+
+    useEffect(() => {
+        data && getCountTicket()
+    }, [data])
 
     function showLessDate(time) {
         const beginTime = moment(time.beginTime).format("MM/DD/YY");
         const endTime = moment(time.endTime).format("MM/DD/YY");
-        const now = moment()
-        const dayRemain = -now.diff(beginTime, "days");
-        if(dayRemain > 0) {
-            return `${dayRemain} ngày còn lại`;
+        const now = moment(new Date(), 'MM/DD/YY')
+        const dayRemain = -now.diff(beginTime, "minutes");
+        if (dayRemain > 0) {
+            return `${dayRemain} phút còn lại`;
         }
-        if(dayRemain == 0) {
-            const hourRemain = -now.diff(beginTime, "hours");
-            if(hourRemain > 0) {
-                return `${hourRemain} giờ còn lại`;
-            }
-            if(hourRemain === 0) {
-                return `Đang diễn ra`;
-            }
-            if(hourRemain < 0) {
-                return 'Đã tổ chức'
+        if (dayRemain < 0) {
+            const timeRemain = now.diff(endTime, "minutes");
+            if(timeRemain < 0) {
+                return 'đang diễn ra'
             }
         }
-        if(dayRemain < 0) {
-            return 'Đã tổ chức'
-        }
-        
+        return 'Đã tổ chức'
     }
 
+    function activeLive() {
+        const time = data.time;
+        const beginTime = moment(time.beginTime).format("MM/DD/YY");
+        const endTime = moment(time.endTime).format("MM/DD/YY");
+        const now = moment(new Date(), 'MM/DD/YY')
+        const dayRemain = -now.diff(beginTime, "minutes");
+        if (dayRemain > 0) {
+            return false;
+        }
+        if (dayRemain < 0) {
+            const timeRemain = now.diff(endTime, "minutes");
+            if(timeRemain < 0) {
+                return true
+            }
+        }
+        return false
+    }
+    
+    function toPageDetailEvent(eventId) {
+        const isActiveLive = activeLive();
+        isActiveLive ?  history.push(`/home/event/${eventId}/active-live`) : history.push(`/home/event/${eventId}`);
+    }
+
+    async function getCountTicket() {
+        try {
+            const res = await eventService.getCountTicket(data?._id);
+            if (res) {
+                setCount(res)
+            }
+        } catch (error) {
+            toast(error.response.data.message)
+        }
+    }
+
+
     return (
-        <Box className={classes.root}>
+        <Box className={classes.root}  onClick={() => toPageDetailEvent(data._id)}>
             <Box className={classes.wrapper}>
                 <Box className={classes.wrapIconTop}>
                     <Box color="primary" variant="contained" className={classes.IconTop}>
@@ -135,9 +170,9 @@ function EventItem({ data }) {
                     <Grid container className={classes.footer}>
                         <Grid item md={6} xs={6}>
                             <img src={ticket} />
-                            <span>123</span>
+                            <span>{count?.countTicket}</span>
                             <img src={chat} />
-                            <span>123</span>
+                            <span>{count?.countMessage}</span>
                         </Grid>
                         <Grid item md={6} xs={6}>
                             <Box className={classes.dateLeft}>

@@ -29,7 +29,7 @@ export default function usePaginationAsync({
   function handleChangeRowsPerPage(newSize) {
     setFilters({
       ...filters,
-      page: pageSizeDefault,
+      page: 0,
       size: newSize,
     });
   }
@@ -48,7 +48,6 @@ export default function usePaginationAsync({
     setLoading(false);
     if (res) {
       const { content, pagination } = res;
-      console.log(content, pagination);
       setData(content);
       setPagination({
         size: parseInt(pagination?.size),

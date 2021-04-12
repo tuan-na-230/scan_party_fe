@@ -14,9 +14,9 @@ class EventService {
     return axiosClient.post(endpoint, data);
   }
 
-  async getListEvent() {
+  async getListEvent(params) {
     const endpoint = `${urlBase}/events`;
-    return axiosClient.get(endpoint);
+    return axiosClient.get(endpoint, { params });
   }
 
   async getListTemplate() {
@@ -42,6 +42,21 @@ class EventService {
   async delEvent(eventId) {
     const endpoint = `${urlBase}/events/${eventId}`;
     return axiosClient.delete(endpoint);
+  }
+
+  async userRegisterForm(eventId, data) {
+    const endpoint = `${urlBase}/events/${eventId}/registerForm`;
+    return axiosClient.post(endpoint, data);
+  }
+
+  async getCountTicket(eventId) {
+    const endpoint = `${urlBase}/tickets/${eventId}/countTicket`;
+    return axiosClient.get(endpoint);
+  }
+
+  async getLuckyPerson(eventId) {
+    const endpoint = `${urlBase}/guests/${eventId}/luckyPerson`;
+    return axiosClient.get(endpoint);
   }
 }
 
