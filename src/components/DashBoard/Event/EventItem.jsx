@@ -10,6 +10,8 @@ import moment from 'moment';
 import eventService from './eventService';
 import { toast } from 'react-toastify';
 import { useHistory } from 'react-router';
+import Rating from '@material-ui/lab/Rating';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -50,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
     nameEvent: {
         fontSize: 18,
         fontWeight: '600',
-        padding: '12px 50px 0px 50px',
+        // padding: '12px 0px 0px 50px',
         margin: 'auto'
     },
     addressEvent: {
@@ -72,6 +74,11 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         justifyContent: 'space-between',
         AlignItems: 'center'
+    },
+    rating: {
+        display: 'flex',
+        justifyContent: 'center',
+        marginTop: '1rem'
     }
 }));
 
@@ -79,6 +86,7 @@ function EventItem({ data }) {
     const classes = useStyles();
     const [count, setCount] = useState();
     const history = useHistory();
+    const { t } = useTranslation()
 
     useEffect(() => {
         data && getCountTicket()
@@ -90,15 +98,15 @@ function EventItem({ data }) {
         const now = moment(new Date(), 'MM/DD/YY')
         const dayRemain = -now.diff(beginTime, "minutes");
         if (dayRemain > 0) {
-            return `${dayRemain} phút còn lại`;
+            return { text: 'minute_remaining', minutes: dayRemain };
         }
         if (dayRemain < 0) {
             const timeRemain = now.diff(endTime, "minutes");
-            if(timeRemain < 0) {
-                return 'đang diễn ra'
+            if (timeRemain < 0) {
+                return {text: 'happening'}
             }
         }
-        return 'Đã tổ chức'
+        return {text: 'happened'}
     }
 
     function activeLive() {
@@ -112,16 +120,16 @@ function EventItem({ data }) {
         }
         if (dayRemain < 0) {
             const timeRemain = now.diff(endTime, "minutes");
-            if(timeRemain < 0) {
+            if (timeRemain < 0) {
                 return true
             }
         }
         return false
     }
-    
+
     function toPageDetailEvent(eventId) {
         const isActiveLive = activeLive();
-        isActiveLive ?  history.push(`/home/event/${eventId}/active-live`) : history.push(`/home/event/${eventId}`);
+        isActiveLive ? history.push(`/event/${eventId}/active-live`) : history.push(`/event/${eventId}`);
     }
 
     async function getCountTicket() {
@@ -135,9 +143,17 @@ function EventItem({ data }) {
         }
     }
 
+    function countRating(ratingList = []) {
+        const totalRating = ratingList.reduce((accumulator, currentValue) => (
+            accumulator + currentValue?.rating
+        ), 0)
+        const result = Math.ceil(totalRating / ratingList?.length);
+        return result;
+    }
+
 
     return (
-        <Box className={classes.root}  onClick={() => toPageDetailEvent(data._id)}>
+        <Box className={classes.root} onClick={() => toPageDetailEvent(data._id)}>
             <Box className={classes.wrapper}>
                 <Box className={classes.wrapIconTop}>
                     <Box color="primary" variant="contained" className={classes.IconTop}>
@@ -147,6 +163,13 @@ function EventItem({ data }) {
                 <Paper elevation={4} className={classes.content} >
                     <Grid container>
                         <Grid item md={12}>
+                            <Rating
+                                name="averageRating"
+                                value={countRating(data?.rating?.ratingList)}
+                                size="medium"
+                                readOnly
+                                className={classes.rating}
+                            />
                             <Typography
                                 color="textPrimary"
                                 gutterBottom
@@ -166,7 +189,9 @@ function EventItem({ data }) {
                             </Typography>
                         </Grid>
                     </Grid>
-                    <LinearProgress variant="determinate" value={50} />
+                    <LinearProgress variant="determinate" value={10} style={{ height: '8px', borderRadius: '8px' }}>
+                        100
+                    </LinearProgress>
                     <Grid container className={classes.footer}>
                         <Grid item md={6} xs={6}>
                             <img src={ticket} />
@@ -177,7 +202,7 @@ function EventItem({ data }) {
                         <Grid item md={6} xs={6}>
                             <Box className={classes.dateLeft}>
                                 <ClockIcon />
-                                <span>{data && showLessDate(data.time)}</span>
+                                <span>{data && t(showLessDate(data.time).text, {minutes: showLessDate(data.time).minutes})}</span>
                             </Box>
                         </Grid>
                     </Grid>

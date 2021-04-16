@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useHistory } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {
@@ -17,6 +17,8 @@ import InputIcon from '@material-ui/icons/Input';
 import LoginHeader from '../../../Login/LoginHeader';
 import loginService from '../../../Login/index.service';
 // import Logo from 'src/components/Logo';
+import { useDispatch } from 'react-redux';
+import { logOut } from '../../../../stores/slices/authSlice'
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -33,11 +35,14 @@ const TopBar = ({
 }) => {
   const classes = useStyles();
   const [notifications] = useState([]);
+  const history = useHistory();
+  const dispatch = useDispatch();
 
-  async function LogOut () {
+  async function handleLogOut() {
     const refreshToken = localStorage.getItem('refresh-token') || '';
-    loginService.logOut({refreshToken: refreshToken});
-    rest.history.push('users/sign-in');
+    dispatch(logOut())
+    loginService.logOut({ refreshToken: refreshToken });
+    history.push('../users/sign-in');
   }
 
   return (
@@ -62,7 +67,7 @@ const TopBar = ({
               <NotificationsIcon />
             </Badge>
           </IconButton>
-          <IconButton color="inherit" onClick={LogOut}>
+          <IconButton color="inherit" onClick={handleLogOut}>
             <InputIcon />
           </IconButton>
         </Hidden>

@@ -16,9 +16,11 @@ import eventService from "../eventService";
 import ModalGuestInfo from "./ModalGuestInfo";
 import QRCode from 'qrcode.react'
 import moment from "moment";
+import { useTranslation } from "react-i18next";
 
 
 export default function EventDetailTable({ eventId }) {
+  const {t} = useTranslation();
   const [ticketId, setTicketId] = useState();
   const [isShowModalGuestInfo, setShowModalGuestInfo] = useState(false);
   async function getListTicket(params) {
@@ -54,11 +56,11 @@ export default function EventDetailTable({ eventId }) {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell align="right">Stt</TableCell>
-              <TableCell align="right">Value</TableCell>
-              <TableCell align="right">Ngày tạo</TableCell>
-              <TableCell align="right">Ngày hết hạn</TableCell>
-              <TableCell align="right">Status</TableCell>
+              <TableCell align="right">{t('index')}</TableCell>
+              <TableCell align="right">{t('value')}</TableCell>
+              <TableCell align="right">{t('created_date')}</TableCell>
+              <TableCell align="right">{t('expiration_date')}</TableCell>
+              <TableCell align="right">{t('status')}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

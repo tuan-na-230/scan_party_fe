@@ -9,6 +9,11 @@ class GuestService {
         const endpoint = `${urlBase}/auth`
         return axiosClient.post(endpoint, data)
     }
+
+    async Rating(eventId, data) {
+        const endpoint = `${urlBase}/guests/${eventId}/rating`;
+        return axiosClient.post(endpoint, data)
+    }
 }
 
 const guestService = new GuestService();

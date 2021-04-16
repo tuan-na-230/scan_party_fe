@@ -11,8 +11,10 @@ import PopUpCheckTicket from '../../../Guest/ScanTicket';
 import PopupSelectGame from './PopupSelectGame';
 import MiniGame from './MiniGame/index';
 import PopUpScanTicket from './PopupScanTicket';
+import { useTranslation } from 'react-i18next';
 
 function ActiveLive() {
+    const {t} = useTranslation()
     const { eventId } = useParams();
 
     const [DetailEvent, setDetailEvent] = useState();
@@ -56,21 +58,22 @@ function ActiveLive() {
                         </Box>
                     </Paper>
                     <Paper elevation={3} className="m-1 p-1">
-                        <Typography variant="h5" className="m-1" style={{ textAlign: 'center', marginBottom: '1rem' }}>Scan to chat room</Typography>
+                        <Typography variant="h5" className="m-1" style={{ textAlign: 'center', marginBottom: '1rem' }}>{t('scan_to_chat_room')}</Typography>
                         <Box style={{ display: 'flex', justifyContent: 'center' }}>
                             <QRCode value={`http://localhost:3000/guests/${DetailEvent?.chat}`} />
                         </Box>
                     </Paper>
                     <Paper elevation={3} className="p-1 m-1">
-                        <Grid container spacing={2} >
+                        <Grid container spacing={1} >
                             <Grid item sm={6}>
                                 <Button
                                     variant="contained"
                                     color="primary"
                                     endIcon={<ScanIcon />}
                                     onClick={() => { setShowPopupScan(true) }}
+                                    fullWidth
                                 >
-                                    Quét vé
+                                    {t('scan_ticket')}
                                 </Button>
                             </Grid>
                             <Grid item sm={6}>
@@ -79,8 +82,9 @@ function ActiveLive() {
                                     color="secondary"
                                     endIcon={<MiniGameIcon />}
                                     onClick={() => { setShowPopupMiniGame(true) }}
+                                    fullWidth
                                 >
-                                    Mini game
+                                    {t('mini_game')}
                         </Button>
                             </Grid>
                         </Grid>

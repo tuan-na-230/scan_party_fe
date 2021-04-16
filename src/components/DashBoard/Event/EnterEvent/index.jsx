@@ -75,10 +75,11 @@ export default function EnterValue({ setShowEnterForm }) {
     email: "tuan.na.230@gmail.com",
     facebook: "tuan.na.230@gmail.com",
     phoneNumber: "0349591999",
+    isAcceptGuestJoin: false
   });
   const [valueStep2, setValueStep2] = React.useState();
   const [valueStep3, setValueStep3] = React.useState();
-  const [infoExcel, setInfoExcel] = React.useState("sdfd");
+  const [infoExcel, setInfoExcel] = React.useState();
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
@@ -105,7 +106,8 @@ export default function EnterValue({ setShowEnterForm }) {
           phoneNumber: valueStep1.phoneNumber,
           facebook: valueStep1.facebook,
         },
-        description: valueStep1.description
+        description: valueStep1.description,
+        isAcceptGuestJoin: valueStep1.isAcceptGuestJoin
       },
       guestInfo: [...valueStep2],
       ticketTemplateInfo: {

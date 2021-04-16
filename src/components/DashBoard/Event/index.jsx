@@ -1,5 +1,6 @@
 import { Box, Button, Container, Grid, makeStyles, Paper } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
 import usePaginationAsync from '../../hook/usePaginationAsync';
@@ -28,6 +29,7 @@ function Event() {
     const classes = useStyles();
     const [showEnterValue, setShowEnterForm] = useState(false);
     const history = useHistory();
+    const {t} = useTranslation()
 
     useEffect(() => {
         getListEvent()
@@ -68,7 +70,7 @@ function Event() {
                         xs={12}
                     >
                         <Box component="span" className={classes.titleHeader}>
-                            your_event
+                            {t('your_event')}
                     </Box>
                     </Grid>
                     <Grid

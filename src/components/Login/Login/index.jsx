@@ -14,7 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { FastField, Form, Formik } from 'formik';
 import { SPCheckBox, SPTextField } from '../../form_field';
@@ -45,17 +45,18 @@ const useStyles = makeStyles((theme) => ({
 export default function LoginForm(props) {
     const classes = useStyles();
     const { t } = useTranslation();
-    const [error, setError] = useState('')
+    const [error, setError] = useState('');
+    const history = useHistory()
 
     async function handleSubmit(data) {
         try {
-            const res = await loginService.signIn(data)
+            const res = await loginService.signIn(data);
             if (res) {
-                localStorage.setItem('access-token', res.accessToken);
-                localStorage.setItem('refresh-token', res.refreshToken);
-                localStorage.setItem('user', JSON.stringify(res.user))
+                localStorage.setItem('access-token', JSON.stringify(res.accessToken));
+                localStorage.setItem('refresh-token', JSON.stringify(res.refreshToken));
+                localStorage.setItem('user', JSON.stringify(res.user));
                 toast(res.message)
-                props.history.push('/dash-board');
+                history.push('/');
                 setError('')
             }
         } catch (error) {

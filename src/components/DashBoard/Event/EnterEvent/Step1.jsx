@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { Formik, Form, FastField } from 'formik';
 import * as Yup from 'yup';
-import { SPDatePicker, SPEditor, SPTextField } from '../../../form_field';
+import { SPCheckBox, SPDatePicker, SPEditor, SPTextField } from '../../../form_field';
 import { Box, Button, useTheme } from '@material-ui/core';
 
 export default function Step1({ data, handleSubmit }) {
@@ -130,6 +130,15 @@ export default function Step1({ data, handleSubmit }) {
                                         required
                                         fullWidth
                                         label='Description'
+                                    />
+                                </Grid>
+                                <Grid item xs={12} sm={12}>
+                                    <FastField
+                                        name='isAcceptGuestJoin'
+                                        component={SPCheckBox}
+                                        required
+                                        fullWidth
+                                        label='cho phép khách mời điền form đăng kí'
                                     />
                                 </Grid>
                             </Grid>

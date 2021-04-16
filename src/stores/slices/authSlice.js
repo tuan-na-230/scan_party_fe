@@ -29,6 +29,7 @@ export const {
   setAccessToken,
   setRefreshToken,
   changeUser,
+  logOut,
 } = authSlice.actions;
 
 export default authSlice.reducer;

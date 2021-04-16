@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Liquid, measureTextWidth } from '@ant-design/charts';
 import io from "socket.io-client";
 import { useParams } from 'react-router';
+import { useTranslation } from 'react-i18next';
 const socket = io.connect(`http://localhost:5000/`);
 
 function LiquidChart() {
+    const {t} = useTranslation();
     const [percent, setPercent] = useState(0.01);
     const [userJoin, setUserJoin] = useState(0);
     const eventId = useParams();
@@ -14,7 +16,7 @@ function LiquidChart() {
         statistic: {
             title: {
                 formatter: function formatter() {
-                    return 'Đã tham gia';
+                    return t('joined');
                 },
                 style: function style(_ref) {
                     let percent = _ref.percent;

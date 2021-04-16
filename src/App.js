@@ -7,23 +7,21 @@ import ScanCode from './components/ScanCode';
 import DashBoard from './components/DashBoard';
 import NotFound from './components/NotFound';
 import Guest from './components/Guest';
+import PrivateRoute from './PrivateRoute'
 
 function App() {
   return (
     <div>
       <Switch>
-        <Route path="/scan">
-          <ScanCode />
-        </Route>
         <Route path="/users">
           <Login />
-        </Route>
-        <Route path="/home">
-          <DashBoard />
         </Route>
         <Route path="/guests/:eventId">
           <Guest />
         </Route>
+        <PrivateRoute path="/">
+          <DashBoard />
+        </PrivateRoute>
         <Route>
           <NotFound />
         </Route>

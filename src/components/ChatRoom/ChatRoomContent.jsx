@@ -51,59 +51,61 @@ function ChatRoomContent({ chatId, aliasName, leaveRoom, isShowSideBar }) {
     };
 
     return (
-        <div class="chat-container">
-            <header class="chat-header">
-                <h1><i class="fas fa-smile"></i> ChatRoom</h1>
-                {leaveRoom && <a class="btn" onClick={leaveRoom}>Leave Room</a>}
-            </header>
-            <main class={isShowSideBar ? "chat-main" : ''}>
-                {isShowSideBar && <div class="chat-sidebar">
-                    <h3><i class="fas fa-comments"></i> Room Name:</h3>
-                    <h2 id="room-name">{dataRoomChat?.name}</h2>
-                    <h3><i class="fas fa-users"></i> Users</h3>
-                    <ul id="users">
-                        <li style={{ fontWeight: 'bold', fontSize: '18px' }}><Activity /> {aliasName}</li>
-                    </ul>
-                </div>}
-                <div class="chat-messages" style={{width: '100%'}}>
-                    {displayConversation()}
-                    <span style={{ float: 'right' }}>{dataRoomChat?.messages?.length} msg</span>
-                    <div ref={bottomRef} className="list-bottom"></div>
-                </div>
-            </main>
-            <div class="chat-form-container">
-                <Formik
-                    initialValues={{ message: '' }}
-                    onSubmit={test}
-                >
-                    {formikProps => {
-                        const { isSubmitting } = formikProps;
-                        return (
-                            <Form>
-                                <FastField
-                                    name="message"
-                                    component={SPTextField}
-                                    type="text"
-                                    variant="outlined"
-                                    fullWidth
-                                    style={{ backgroundColor: 'white', borderRadius: '5px' }}
-                                />
-                                <Button
-                                    type="submit"
-                                    fullWidth
-                                    variant="contained"
-                                    color="primary"
-                                    style={{ width: "100px" }}
-                                    disabled={isSubmitting}
-                                >
-                                    Send
+        <>
+            <div class="chat-container">
+                <header class="chat-header">
+                    <h1><i class="fas fa-smile"></i> ChatRoom</h1>
+                    {leaveRoom && <a class="btn" onClick={leaveRoom}>{t('leave_room')}</a>}
+                </header>
+                <main class={isShowSideBar ? "chat-main" : ''}>
+                    {isShowSideBar && <div class="chat-sidebar">
+                        <h3><i class="fas fa-comments"></i> {t('room_name')}:</h3>
+                        <h2 id="room-name">{dataRoomChat?.name}</h2>
+                        <h3><i class="fas fa-users"></i>{t('alias_name')}</h3>
+                        <ul id="users">
+                            <li style={{ fontWeight: 'bold', fontSize: '18px' }}><Activity /> {aliasName}</li>
+                        </ul>
+                    </div>}
+                    <div class="chat-messages" style={{ width: '100%' }}>
+                        {displayConversation()}
+                        <span style={{ float: 'right' }}>{dataRoomChat?.messages?.length} msg</span>
+                        <div ref={bottomRef} className="list-bottom"></div>
+                    </div>
+                </main>
+                <div class="chat-form-container">
+                    <Formik
+                        initialValues={{ message: '' }}
+                        onSubmit={test}
+                    >
+                        {formikProps => {
+                            const { isSubmitting } = formikProps;
+                            return (
+                                <Form>
+                                    <FastField
+                                        name="message"
+                                        component={SPTextField}
+                                        type="text"
+                                        variant="outlined"
+                                        fullWidth
+                                        style={{ backgroundColor: 'white', borderRadius: '5px' }}
+                                    />
+                                    <Button
+                                        type="submit"
+                                        fullWidth
+                                        variant="contained"
+                                        color="primary"
+                                        style={{ width: "100px" }}
+                                        disabled={isSubmitting}
+                                    >
+                                        {t('send')}
                                 </Button>
-                            </Form>
-                        )
-                    }}
-                </Formik>
-            </div>
-        </div >
+                                </Form>
+                            )
+                        }}
+                    </Formik>
+                </div>
+            </div >
+        </>
     )
 }
 

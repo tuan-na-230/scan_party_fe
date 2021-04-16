@@ -1,11 +1,12 @@
 import { Button } from '@material-ui/core';
 import { FastField, Form, Formik } from 'formik';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { SPTextField } from '../form_field';
 import './index.scss';
 
 export default function JoinChat({joinChat}) {
-
+    const {t} = useTranslation()
     const aliasName = localStorage.getItem("aliasName")
 
     function onSubmit(value) {
@@ -16,7 +17,7 @@ export default function JoinChat({joinChat}) {
     return (
         <div class="join-container">
             <header class="join-header">
-                <h1><i class="fas fa-smile"></i> ChatRoom</h1>
+                <h1><i class="fas fa-smile"></i>ChatRoom</h1>
             </header>
             <main class="join-main">
                 <Formik
@@ -31,7 +32,7 @@ export default function JoinChat({joinChat}) {
                                         name="aliasName"
                                         component={SPTextField}
                                         type="text"
-                                        label="your alias name"
+                                        label={t('enter_alias_name')}
                                         variant="outlined"
                                         fullWidth
                                         style={{ backgroundColor: 'white', borderRadius: '5px', marginBottom: '1rem' }}
@@ -43,7 +44,7 @@ export default function JoinChat({joinChat}) {
                                     variant="contained"
                                     color="primary"
                                 >
-                                    Join Chat
+                                    {t('join_chat')}
                                 </Button>
                             </Form>
                         )

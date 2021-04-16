@@ -8,11 +8,13 @@ import {
 } from "@material-ui/core";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useHistory, useParams } from "react-router";
 import { toast } from "react-toastify";
 import ChatRoomContent from "../../../ChatRoom/ChatRoomContent";
 import eventService from "../eventService";
 import EventDetailTable from "./EventDetailTable";
+import RatingList from './RatingList'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,6 +32,7 @@ function EventDetail() {
   const classes = useStyles();
   const params = useParams();
   const history = useHistory();
+  const { t } = useTranslation()
 
   const [detailEvent, setDetailEvent] = useState([]);
 
@@ -57,26 +60,28 @@ function EventDetail() {
     }
   }
 
+
+
   return (
     <>
       <Box className={classes.root}>
         <Grid container spacing={2}>
           <Grid item lg={6} xs={12}>
             <Paper elevation={3} className="p-1">
-              <Typography variant="h5">Event Information</Typography>
+              <Typography variant="h5">{t("event_info")}</Typography>
               <Grid container>
                 <Grid item lg={11} spin>
-                  <Typography>Tên sự kiện: {detailEvent.name}</Typography>
+                  <Typography>{t("event_name")}: {detailEvent.name}</Typography>
                 </Grid>
                 <Grid item lg={11}>
-                  <Typography>Địa điểm: {detailEvent.address}</Typography>
+                  <Typography>{t("address")}: {detailEvent.address}</Typography>
                 </Grid>
                 <Grid item lg={11}>
-                  <Typography>Đơn vị tổ chức: {detailEvent.company}</Typography>
+                  <Typography>{t("organization")}: {detailEvent.company}</Typography>
                 </Grid>
                 <Grid item lg={11}>
                   <Typography>
-                    Thời gian bắt đầu:{" "}
+                    {t("start_time")}:{" "}
                     {moment(detailEvent.time?.beginTime).format(
                       "MMMM Do YYYY, h:mm:ss a"
                     )}
@@ -84,7 +89,7 @@ function EventDetail() {
                 </Grid>
                 <Grid item lg={11}>
                   <Typography>
-                    Thời gian kết thúc:{" "}
+                    {t("end_time")}:{" "}
                     {moment(detailEvent.time?.endTime).format(
                       "MMMM Do YYYY, h:mm:ss a"
                     )}
@@ -95,40 +100,43 @@ function EventDetail() {
           </Grid>
           <Grid item lg={6} xs={12}>
             <Paper elevation={3} className="p-1">
-              <Typography variant="h5">Management Information</Typography>
+              <Typography variant="h5">{t("manager_info")}</Typography>
               <Grid container>
                 <Grid item lg={11} spin>
                   <Typography>
-                    Người quản lý: {detailEvent.manager?.name}
+                    {t("manager_name")}: {detailEvent.manager?.name}
                   </Typography>
                 </Grid>
                 <Grid item lg={11}>
                   <Typography>
-                    Số điện thoại: {detailEvent.manager?.phoneNumber}
+                    {t("phone_number")}: {detailEvent.manager?.phoneNumber}
                   </Typography>
                 </Grid>
                 <Grid item lg={11}>
                   <Typography>
-                    Địa chỉ email: {detailEvent.manager?.email}
+                    {t("email_address")}: {detailEvent.manager?.email}
                   </Typography>
                 </Grid>
                 <Grid item lg={11}>
                   <Typography>
-                    facebook: {detailEvent.manager?.facebook}
+                    {t("facebook")}: {detailEvent.manager?.facebook}
                   </Typography>
                 </Grid>
               </Grid>
             </Paper>
+            <Paper elevation={3} className="p-1" style={{ marginTop: '1rem' }}>
+              <RatingList data={detailEvent?.rating?.ratingList} />
+            </Paper>
           </Grid>
           <Grid item lg={12} xs={12}>
             <Paper elevation={3} className="p-1">
-              <Typography variant="h5">Ticket and Guest Information</Typography>
+              <Typography variant="h5">{t("ticket_and_guest_info")}</Typography>
               <EventDetailTable eventId={params.eventId} />
             </Paper>
           </Grid>
           <Grid item lg={12} xs={12}>
             <Paper elevation={3} className="p-1">
-              <ChatRoomContent chatId={detailEvent?.chat} aliasName={"Quản trị viên"}/>
+              <ChatRoomContent chatId={detailEvent?.chat} aliasName={"Quản trị viên"} />
             </Paper>
           </Grid>
           <Grid item lg={12} xs={12}>
@@ -138,7 +146,7 @@ function EventDetail() {
                 color="secondary"
                 onClick={handleDelEvent}
               >
-                Xóa sự kiện
+                {t("delete_event")}
             </Button>
             </Box>
           </Grid>

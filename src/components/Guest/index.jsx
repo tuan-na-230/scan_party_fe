@@ -1,7 +1,6 @@
-import { Box, Button, Container, Grid, makeStyles } from '@material-ui/core';
+import { Box, Button, Container, Grid, makeStyles, Paper } from '@material-ui/core';
 import React, { useState } from 'react';
 import GuestTopBar from './GuestTopBar';
-import { Aperture as ScanIcon, UserPlus as AddIcon } from 'react-feather'
 import EventInfo from './EventInfo';
 import PopUpCheckTicket from './ScanTicket';
 import GuestForm from './GuestForm';
@@ -30,35 +29,11 @@ function Guest() {
             <Container maxWidth="md" className={classes.content}>
                 <Box>
                     <img
-                        src="https://luhanhvietnam.com.vn/du-lich/vnt_upload/news/05_2019/tao-dang-chup-anh-6.jpg"
+                        src="https://vnn-imgs-f.vgcloud.vn/2020/03/26/19/huong-dan-su-dung-zoom-meeting-tren-dien-thoai.jpg"
                         className={classes.headerImage}
                     />
                 </Box>
-                {isShowForm ? <GuestForm onBack={() => {setShowForm(false)}}/> : <EventInfo />}
-                {!isShowForm && <Grid container spacing={2} justify="center">
-                    <Grid item>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            className={classes.button}
-                            endIcon={<ScanIcon />}
-                            onClick={() => { setShowPopupScan(true) }}
-                        >
-                            Kiểm tra vé
-                        </Button>
-                    </Grid>
-                    <Grid item>
-                        <Button
-                            variant="contained"
-                            color="secondary"
-                            className={classes.button}
-                            endIcon={<AddIcon />}
-                            onClick={() => { setShowForm(true) }}
-                        >
-                            Đăng kí tham gia
-                        </Button>
-                    </Grid>
-                </Grid>}
+                {isShowForm ? <GuestForm onBack={() => { setShowForm(false) }} /> : <EventInfo setShowForm={setShowForm}/>}
             </Container>
         </>
     )

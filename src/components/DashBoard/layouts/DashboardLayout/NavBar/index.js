@@ -26,51 +26,9 @@ import {
 } from 'react-feather';
 import NavItem from './NavItem';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
-// const user = {
-//   avatar: '/static/images/avatars/avatar_6.png',
-//   ...JSON.parse(localStorage.getItem('user')) 
-// };
 
-// const user = JSON.parse(localStorage.getItem('user'))
-
-const items = [
-  {
-    href: '/home',
-    icon: BarChartIcon,
-    title: 'Dashboard'
-  },
-  {
-    href: '/home/account',
-    icon: UsersIcon,
-    title: 'Account'
-  },
-  {
-    href: '/home/event',
-    icon: ShoppingBagIcon,
-    title: 'Event'
-  },
-  {
-    href: '/home/device-test',
-    icon: AirplayIcon,
-    title: 'Device test'
-  },
-  {
-    href: '/home/store',
-    icon: FileIcon,
-    title: 'My Store'
-  },
-  {
-    href: '/home/register',
-    icon: UserPlusIcon,
-    title: 'Register'
-  },
-  {
-    href: '/home/404',
-    icon: AlertCircleIcon,
-    title: 'Error'
-  }
-];
 
 const useStyles = makeStyles(() => ({
   mobileDrawer: {
@@ -92,6 +50,30 @@ const NavBar = ({ onMobileClose, openMobile }) => {
   const classes = useStyles();
   const location = useLocation();
   const user = useSelector(state => state.auth.user);
+  const { t } = useTranslation();
+
+  const items = [
+    {
+      href: '/',
+      icon: ShoppingBagIcon,
+      title: t('event')
+    },
+    {
+      href: '/account',
+      icon: UsersIcon,
+      title: t('account')
+    },
+    {
+      href: '/device-test',
+      icon: AirplayIcon,
+      title: t('device_test')
+    },
+    {
+      href: '/store',
+      icon: FileIcon,
+      title: t('my_store')
+    }
+  ];
 
   useEffect(() => {
     if (openMobile && onMobileClose) {

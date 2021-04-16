@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import ItemImage from './ItemImage';
 import ListExcel from './ListExcel';
 import ListImage from './ListImage';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -35,6 +36,7 @@ export default function Store() {
     const classes = useStyles();
     const [viewMode, setViewMode] = React.useState(0);
     const user = JSON.parse(localStorage.getItem('user'));
+    const {t} = useTranslation()
 
     return (
         <Paper elevation={24} className={classes.root} >
@@ -49,8 +51,8 @@ export default function Store() {
                             variant="fullWidth"
                             aria-label="store"
                         >
-                            <Tab label="Excel" {...a11yProps(0)} />
-                            <Tab label="Image" {...a11yProps(0)} />
+                            <Tab label={t('excel_file')} {...a11yProps(0)} />
+                            <Tab label={t('image_file')} {...a11yProps(0)} />
                         </Tabs>
                     </AppBar>
                 </Grid>
