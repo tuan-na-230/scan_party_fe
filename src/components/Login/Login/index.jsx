@@ -2,25 +2,22 @@ import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import { Link as LinkUi } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-// import Alert from '@material-ui/lab/Alert';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useTranslation } from 'react-i18next';
 import { Link, useHistory } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import { FastField, Form, Formik } from 'formik';
 import { SPCheckBox, SPTextField } from '../../form_field';
 import loginService from '../index.service';
 import * as Yup from 'yup';
 import Alert from '@material-ui/lab/Alert';
+import { useDispatch } from 'react-redux';
+import { signIn } from '../../../stores/slices/authSlice';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -48,6 +45,7 @@ export default function LoginForm(props) {
     const { t } = useTranslation();
     const [error, setError] = useState('');
     const history = useHistory()
+    const dispatch = useDispatch();
 
     async function handleSubmit(data) {
         try {
@@ -56,9 +54,9 @@ export default function LoginForm(props) {
                 localStorage.setItem('access-token', JSON.stringify(res.accessToken));
                 localStorage.setItem('refresh-token', JSON.stringify(res.refreshToken));
                 localStorage.setItem('user', JSON.stringify(res.user));
-                toast(t(res.message))
+                dispatch(signIn())
                 history.push('/');
-                setError('')
+                setError('');
             }
         } catch (error) {
             setError(error.response.data.message)
@@ -68,7 +66,7 @@ export default function LoginForm(props) {
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
-            <div className={classes.paper}>
+            <Box className={classes.paper}>
                 <Avatar className={classes.avatar}>
                     <LockOutlinedIcon />
                 </Avatar>
@@ -147,7 +145,7 @@ export default function LoginForm(props) {
                         </Link>
                     </Grid>
                 </Grid>
-            </div>
+            </Box>
         </Container>
     );
 }
