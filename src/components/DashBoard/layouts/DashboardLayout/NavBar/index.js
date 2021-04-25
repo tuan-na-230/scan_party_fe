@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link as RouterLink, useLocation } from 'react-router-dom';
+import { Link as RouterLink, useHistory, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
   Avatar,
@@ -10,7 +10,8 @@ import {
   Hidden,
   List,
   Typography,
-  makeStyles
+  makeStyles,
+  IconButton
 } from '@material-ui/core';
 import {
   AlertCircle as AlertCircleIcon,
@@ -25,9 +26,12 @@ import {
   FileMinus as FileIcon
 } from 'react-feather';
 import NavItem from './NavItem';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-
+import LoginHeader from '../../../../Login/LoginHeader';
+import InputIcon from '@material-ui/icons/Input';
+import { logOut } from '../../../../../stores/slices/authSlice';
+import loginService from '../../../../Login/index.service';
 
 
 const useStyles = makeStyles(() => ({
@@ -43,6 +47,12 @@ const useStyles = makeStyles(() => ({
     cursor: 'pointer',
     width: 64,
     height: 64
+  },
+  logout: {
+    display: 'flex', 
+    justifyContent: 'flex-start', 
+    padding: '16px', 
+    fontSize: '2rem'
   }
 }));
 
@@ -81,6 +91,18 @@ const NavBar = ({ onMobileClose, openMobile }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
+
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const refreshToken = JSON.parse(localStorage.getItem('refresh-token'))
+
+  async function handleLogOut() {
+    const refreshToken = localStorage.getItem('refresh-token') || '';
+    dispatch(logOut())
+    loginService.logOut({ refreshToken: refreshToken });
+    history.push('/users/sign-in');
+  }
 
   const content = (
     <Box
@@ -127,19 +149,6 @@ const NavBar = ({ onMobileClose, openMobile }) => {
           ))}
         </List>
       </Box>
-      {/* <Box flexGrow={1} />
-      <Box
-        p={2}
-        m={2}
-        bgcolor="background.dark"
-      >
-        <Box
-          display="flex"
-          justifyContent="center"
-          mt={2}
-        >
-        </Box>
-      </Box> */}
     </Box>
   );
 
@@ -153,7 +162,16 @@ const NavBar = ({ onMobileClose, openMobile }) => {
           open={openMobile}
           variant="temporary"
         >
+          <Box style={{ display: 'flex', justifyContent: 'center' }}>
+            <LoginHeader />
+          </Box>
           {content}
+          <Box className={classes.logout}>
+            <IconButton color="inherit" onClick={handleLogOut}>
+              <InputIcon />	&nbsp;
+              <Typography>Log out</Typography>
+            </IconButton>
+          </Box>
         </Drawer>
       </Hidden>
       <Hidden mdDown>

@@ -1,11 +1,9 @@
 import { Button, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
 import moment from 'moment';
-import React, { useEffect, useRef, useState } from 'react';
-import { Route, Switch, useParams, useRouteMatch } from 'react-router';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import eventService from '../../DashBoard/Event/eventService';
-import SystemAlert from '../../SystemAlert';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ChatRoom from '../../ChatRoom';
 import GuestRating from '../GuestRating';
 import PopUpCheckTicket from '../ScanTicket';
@@ -14,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        backgroundColor: theme.palette.background.dark,
+        // backgroundColor: theme.palette.background.dark,
         minHeight: "100%",
         marginLeft: theme.spacing(2),
         marginRight: theme.spacing(2),
@@ -47,7 +45,7 @@ function EventInfo({ setShowForm }) {
             const res = await eventService.getDetailEvent(eventId);
             setEventInfo(res);
         } catch (error) {
-            toast(error.response.data.message);
+            toast(t(error.response.data.message));
         }
     }
     function createMarkup() {
@@ -78,13 +76,13 @@ function EventInfo({ setShowForm }) {
             {isActive && <GuestRating />}
             <Grid container>
                 <Grid item xs={12}>
-                    <Paper elevation={3} className="p-1 m-1">
+                    <Paper elevation={12} className="p-1 m-1">
                         <Typography variant="h5">{t('description')}</Typography>
                         <div dangerouslySetInnerHTML={createMarkup()} className='editor'></div>
                     </Paper>
                 </Grid>
-                <Grid item xs={6}>
-                    <Paper elevation={3} className="p-1 m-1">
+                <Grid item xs={12} md={6}>
+                    <Paper elevation={12} className="p-1 m-1">
                         <Typography variant="h5">{t('event_info')}</Typography>
                         <Grid container>
                             <Grid item lg={11} spin>
@@ -115,8 +113,8 @@ function EventInfo({ setShowForm }) {
                         </Grid>
                     </Paper>
                 </Grid>
-                <Grid item xs={6}>
-                    <Paper elevation={3} className="p-1 m-1">
+                <Grid item xs={12} md={6}>
+                    <Paper elevation={12} className="p-1 m-1">
                         <Typography variant="h5">{t('manager_info')}</Typography>
                         <Grid container>
                             <Grid item lg={11} spin>
@@ -143,7 +141,7 @@ function EventInfo({ setShowForm }) {
                     </Paper>
                 </Grid>
             </Grid>
-            <Paper elevation={3} className="p-1 m-1">
+            <Paper elevation={12}>
                 <ChatRoom chatId={eventInfo?.chat} />
             </Paper>
             <Grid container spacing={2} justify="center">
@@ -156,7 +154,7 @@ function EventInfo({ setShowForm }) {
                         onClick={() => { setShowPopupScan(true) }}
                     >
                         {t('scan_ticket')}
-                        </Button>
+                    </Button>
                 </Grid>
                 {eventInfo?.isAcceptGuestJoin && <Grid item>
                     <Button
@@ -167,7 +165,7 @@ function EventInfo({ setShowForm }) {
                         onClick={() => { setShowForm(true) }}
                     >
                         {t('register')}
-                        </Button>
+                    </Button>
                 </Grid>}
             </Grid>
         </>

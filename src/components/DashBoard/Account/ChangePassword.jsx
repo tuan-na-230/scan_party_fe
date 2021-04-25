@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {
     Box,
@@ -9,24 +8,15 @@ import {
     CardHeader,
     Divider,
     Grid,
-    TextField,
-    makeStyles
 } from '@material-ui/core';
 import { FastField, Formik, Form } from 'formik';
 import { SPTextField } from '../../form_field';
 import * as Yup from 'yup'
 import loginService from '../../Login/index.service';
-import { User } from 'react-feather';
 import {toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 
-
-const useStyles = makeStyles(() => ({
-    root: {}
-}));
-
 const ChangePassword = ({ className, ...rest }) => {
-    const classes = useStyles();
     const [error, setError] = useState('');
     const {t} = useTranslation();
     async function handleSubmit(values) {
@@ -34,14 +24,14 @@ const ChangePassword = ({ className, ...rest }) => {
         const data = { ...values, email: user.email };
         try {
             const res = await loginService.changePassword(data);
-            toast(res.message);
+            toast(t(res.message));
             setError('')
         } catch (error) {
             setError(error.response.data.message)
         }
     }
     return (
-        <Card>
+        <Card elevation={9}>
             <CardHeader
                 subheader={t("change_password_regularly_for_added_security")}
                 title={t("change_password")}
@@ -121,6 +111,7 @@ const ChangePassword = ({ className, ...rest }) => {
                                         color="primary"
                                         variant="contained"
                                         type="submit"
+                                        disabled={!isValid && touched}
                                     >
                                         {t('change')}
                                         </Button>

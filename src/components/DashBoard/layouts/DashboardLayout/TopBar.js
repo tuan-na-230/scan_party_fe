@@ -18,7 +18,8 @@ import LoginHeader from '../../../Login/LoginHeader';
 import loginService from '../../../Login/index.service';
 // import Logo from 'src/components/Logo';
 import { useDispatch } from 'react-redux';
-import { logOut } from '../../../../stores/slices/authSlice'
+import { logOut } from '../../../../stores/slices/authSlice';
+import Logo from '../../../../assets/images/logo-2.png'
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -53,7 +54,7 @@ const TopBar = ({
     >
       <Toolbar>
         <RouterLink to="/">
-          {/* <Logo /> */}
+          <img src={Logo} style={{  height: '50px' }} />
         </RouterLink>
         <Box flexGrow={1} />
         <Hidden mdDown>

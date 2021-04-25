@@ -31,7 +31,7 @@ function ActiveLive() {
             const res = await eventService.getDetailEvent(eventId);
             setDetailEvent(res);
         } catch (error) {
-            toast(error.response.data.message);
+            toast(t(error.response.data.message));
         }
     }
 

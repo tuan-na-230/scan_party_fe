@@ -16,6 +16,7 @@ import { FastField, Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import axiosClient from '../../../http/axiosClient';
 import loginService from '../index.service';
+import Alert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -41,15 +42,18 @@ function ForgotPassword() {
     const classes = useStyles();
     const { t } = useTranslation();
     const [message, setMessage] = useState('');
+    const [error, setError] = useState('');
 
     async function sendEmailWantReset (data) {
         try {
             const res = await loginService.sendEmailWantReset(data);
             if(res) {
+                setError('')
                 setMessage(res.message)
             }
         } catch(error) {
-            setMessage(error.response.data.message)
+            setMessage('')
+            setError(error.response.data.message)
         }
     }
 
@@ -74,8 +78,8 @@ function ForgotPassword() {
                         const { isValid, touched, isSubmitting } = formikProps;
                         return (
                             <Form className={classes.form}>
-                                <Grid container spacing={2}>
-                                    <Grid item xs={12} sm={12}>
+                                <Grid container spacing={2} style={{marginBottom: '5px'}}>
+                                    <Grid item xs={12} sm={12} >
                                         <FastField
                                             name="email"
                                             component={SPTextField}
@@ -88,7 +92,8 @@ function ForgotPassword() {
                                         />
                                     </Grid>
                                 </Grid>
-                                {(message) && <p>{message}</p>}
+                                {(message) && <Alert severity="success">{t(message)}</Alert>}
+                                {(error) && <Alert severity="error">{t(error)}</Alert>}
                                 <Button
                                     type="submit"
                                     fullWidth

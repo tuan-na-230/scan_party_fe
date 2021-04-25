@@ -7,6 +7,8 @@ import usePaginationAsync from '../../hook/usePaginationAsync';
 import EnterValue from './EnterEvent';
 import EventItem from './EventItem';
 import eventService from './eventService';
+// import NotFoundImage from '../../../assets/images/not-found.jpg'
+import NoDataImage from '../../../assets/images/nodata.jpg';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -29,7 +31,8 @@ function Event() {
     const classes = useStyles();
     const [showEnterValue, setShowEnterForm] = useState(false);
     const history = useHistory();
-    const {t} = useTranslation()
+    const { t } = useTranslation();
+    const {email} = JSON.parse(localStorage.getItem('user'))
 
     useEffect(() => {
         getListEvent()
@@ -45,19 +48,21 @@ function Event() {
 
     async function getListEvent(params) {
         try {
-            const listEvent = await eventService.getListEvent(params);
+            const listEvent = await eventService.getListEvent({...params, email});
             if (listEvent) {
                 return listEvent
             }
         } catch (error) {
-            toast(error.response.data.message)
+            toast(t(error.response.data.message))
         }
         return null;
     }
 
+    console.log(data)
+
     return (
         <>
-            {showEnterValue && <EnterValue setShowEnterForm={setShowEnterForm} />}
+            {showEnterValue && <EnterValue setShowEnterForm={setShowEnterForm} fetchData={fetchData}/>}
             <Container maxWidth="lg">
                 <Grid
                     container
@@ -71,7 +76,7 @@ function Event() {
                     >
                         <Box component="span" className={classes.titleHeader}>
                             {t('your_event')}
-                    </Box>
+                        </Box>
                     </Grid>
                     <Grid
                         item
@@ -86,27 +91,38 @@ function Event() {
                     </Button>
                     </Grid>
                 </Grid>
-                <Paper elevation={3} className={classes.listEvent}>
-                    <Grid
-                        container
-                        spacing={3}
-                    >
-                        {data.map(ele => (
-                            <Grid
-                                item
-                                lg={4}
-                                md={3}
-                                xs={12}
-                                key={ele._id}
-                               
-                            >
-                                <EventItem data={ele} />
+                <Paper elevation={24} className={classes.listEvent}>
+                    {data?.length !== 0
+                        ? <Grid
+                            container
+                            spacing={3}
+                        >
+                            {data.map(ele => (
+                                <Grid
+                                    item
+                                    lg={4}
+                                    md={3}
+                                    xs={12}
+                                    key={ele._id}
+
+                                >
+                                    <EventItem data={ele} />
+                                </Grid>
+                            ))}
+                            <Box style={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
+                                <Pagination />
+                            </Box>
+                        </Grid>
+                        : <Grid container justify="center">
+                            <Grid item>
+                                <img src={NoDataImage} style={{
+                                    marginTop: 50,
+                                    display: 'inline-block',
+                                    maxWidth: '100%',
+                                    width: 560
+                                }} />
                             </Grid>
-                        ))}
-                        <Box style={{width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
-                            <Pagination />
-                        </Box>
-                    </Grid>
+                        </Grid>}
                 </Paper>
 
             </Container>

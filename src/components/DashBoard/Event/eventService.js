@@ -1,4 +1,3 @@
-import { Redirect } from "react-router-dom";
 import axiosClient from "../../../http/axiosClient";
 
 const urlBase = "api/v1";

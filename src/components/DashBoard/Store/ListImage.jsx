@@ -1,5 +1,6 @@
 import { Box, CircularProgress } from '@material-ui/core';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import usePaginationAsync from '../../hook/usePaginationAsync';
 import ItemImage from './ItemImage';
@@ -12,13 +13,14 @@ export default function ListImage({ userId }) {
         loading,
         data,
     } = usePaginationAsync({ apiService: getListImage, pageSizeDefault: 5 });
+    const {t} = useTranslation();
 
     async function getListImage(params) {
         try {
             const listExcel = await storeService.getFileImage(params, userId);
             return listExcel;
         } catch (error) {
-            toast(error.response.data.message);
+            toast(t(error.response.data.message));
         }
         return null;
     }

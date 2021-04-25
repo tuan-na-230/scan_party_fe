@@ -34,26 +34,27 @@ const useStyles = makeStyles((theme) => ({
         height: '50px',
         width: '50px',
         borderRadius: '12px',
-        backgroundColor: 'red',
+        backgroundColor: theme.palette.info.main,
         zIndex: '999',
-        boxShadow: '0px 8px #ddd',
+        boxShadow: `0px 8px ${theme.palette.info.light}`,
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     content: {
         position: 'absolute',
         top: '25px',
         paddingTop: theme.spacing(3),
         padding: theme.spacing(1),
-        textAlight: 'center',
+        textAlign: 'center',
         minWidth: '100%'
     },
     nameEvent: {
         fontSize: 18,
         fontWeight: '600',
         // padding: '12px 0px 0px 50px',
-        margin: 'auto'
+        margin: 'auto',
+        textAlign: 'center'
     },
     addressEvent: {
         paddingTop: '8px',
@@ -67,10 +68,9 @@ const useStyles = makeStyles((theme) => ({
     },
     dateLeft: {
         borderRadius: '15px',
-        backgroundColor: '#ddd',
+        backgroundColor: theme.palette.background.default,
         fontWeight: '500',
-        paddingRight: theme.spacing(1),
-        paddingLeft: theme.spacing(1),
+        padding: '5px 8px',
         display: 'flex',
         justifyContent: 'space-between',
         AlignItems: 'center'
@@ -103,10 +103,10 @@ function EventItem({ data }) {
         if (dayRemain < 0) {
             const timeRemain = now.diff(endTime, "minutes");
             if (timeRemain < 0) {
-                return {text: 'happening'}
+                return { text: 'happening' }
             }
         }
-        return {text: 'happened'}
+        return { text: 'happened' }
     }
 
     function activeLive() {
@@ -139,7 +139,7 @@ function EventItem({ data }) {
                 setCount(res)
             }
         } catch (error) {
-            toast(error.response.data.message)
+            toast(t(error.response.data.message))
         }
     }
 
@@ -157,12 +157,12 @@ function EventItem({ data }) {
             <Box className={classes.wrapper}>
                 <Box className={classes.wrapIconTop}>
                     <Box color="primary" variant="contained" className={classes.IconTop}>
-                        <BookIcon style={{ color: 'white' }} />
+                        <Typography><BookIcon /></Typography>
                     </Box>
                 </Box>
                 <Paper elevation={4} className={classes.content} >
                     <Grid container>
-                        <Grid item md={12}>
+                        <Grid item md={12} style={{ width: '100%', textAlign: 'center' }}>
                             <Rating
                                 name="averageRating"
                                 value={countRating(data?.rating?.ratingList)}
@@ -177,7 +177,7 @@ function EventItem({ data }) {
                                 align="center"
                                 className={classes.nameEvent}
                             >
-                                {data.name || 'sự kiện chào mừng tân sinh viên'}
+                                {data.name}
                             </Typography>
                             <Typography
                                 color="textPrimary"
@@ -185,7 +185,7 @@ function EventItem({ data }) {
                                 align="center"
                                 className={classes.addressEvent}
                             >
-                                {data.address || 'Ba Đình, Hà Nội'}
+                                {data.address}
                             </Typography>
                         </Grid>
                     </Grid>
@@ -193,16 +193,20 @@ function EventItem({ data }) {
                         100
                     </LinearProgress>
                     <Grid container className={classes.footer}>
-                        <Grid item md={6} xs={6}>
-                            <img src={ticket} />
-                            <span>{count?.countTicket}</span>
-                            <img src={chat} />
-                            <span>{count?.countMessage}</span>
+                        <Grid container md={6} xs={6}>
+                            <Grid item xs={4} className="classes.footerItem">
+                                <img src={ticket} alt="ticket-icon" />
+                                <strong>{count?.countTicket}</strong>
+                            </Grid>
+                            <Grid item xs={4} className="classes.footerItem">
+                                <img src={chat} alt="chat-icon" />
+                                <strong>{count?.countMessage}</strong>
+                            </Grid>
                         </Grid>
                         <Grid item md={6} xs={6}>
                             <Box className={classes.dateLeft}>
                                 <ClockIcon />
-                                <span>{data && t(showLessDate(data.time).text, {minutes: showLessDate(data.time).minutes})}</span>
+                                <span>{data && t(showLessDate(data.time).text, { minutes: showLessDate(data.time).minutes })}</span>
                             </Box>
                         </Grid>
                     </Grid>

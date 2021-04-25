@@ -7,9 +7,10 @@ import { SPTextField } from '../form_field';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment';
 import { Activity } from 'react-feather';
-const socket = io.connect(`http://localhost:5000/`);
+const socket = io.connect(process.env.REACT_APP_API_URL);
 
 function ChatRoomContent({ chatId, aliasName, leaveRoom, isShowSideBar }) {
+    console.log(aliasName)
     const { t } = useTranslation();
     const [dataRoomChat, setDataRoomChat] = useState([]);
     const bottomRef = useRef();
@@ -22,7 +23,7 @@ function ChatRoomContent({ chatId, aliasName, leaveRoom, isShowSideBar }) {
         leaveRoom && scrollToBottom()
     }, [dataRoomChat])
 
-    function test(value, { resetForm }) {
+    function handleSubmit(value, { resetForm }) {
         //emit message to server
         resetForm({})
         return socket.emit("updateListMessage", chatId, { ...value, user: aliasName, createdAt: new Date() })
@@ -75,7 +76,7 @@ function ChatRoomContent({ chatId, aliasName, leaveRoom, isShowSideBar }) {
                 <div class="chat-form-container">
                     <Formik
                         initialValues={{ message: '' }}
-                        onSubmit={test}
+                        onSubmit={handleSubmit}
                     >
                         {formikProps => {
                             const { isSubmitting } = formikProps;

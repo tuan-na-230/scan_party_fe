@@ -1,24 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {
   AppBar,
-  Badge,
   Box,
   Hidden,
-  IconButton,
   Toolbar,
   makeStyles
 } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
-import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
-import InputIcon from '@material-ui/icons/Input';
-import loginService from '../Login/index.service';
 import LoginHeader from '../Login/LoginHeader';
-// import LoginHeader from '../../../Login/LoginHeader';
-// import loginService from '../../../Login/index.service';
-// import Logo from 'src/components/Logo';
+import Logo from '../../assets/images/logo-2.png'
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -34,13 +26,6 @@ const GuestTopBar = ({
   ...rest
 }) => {
   const classes = useStyles();
-  const [notifications] = useState([]);
-
-  async function LogOut () {
-    const refreshToken = localStorage.getItem('refresh-token') || '';
-    loginService.logOut({refreshToken: refreshToken});
-    rest.history.push('users/sign-in');
-  }
 
   return (
     <AppBar
@@ -50,19 +35,11 @@ const GuestTopBar = ({
     >
       <Toolbar>
         <RouterLink to="/">
-          {/* <Logo /> */}
+          <img src={Logo} alt="logo" style={{height: '50px'}}/>
         </RouterLink>
         <Box flexGrow={1} />
-        <Hidden mdDown>
+        <Hidden>
           <LoginHeader />
-        </Hidden>
-        <Hidden lgUp>
-          <IconButton
-            color="inherit"
-            onClick={onMobileNavOpen}
-          >
-            <MenuIcon />
-          </IconButton>
         </Hidden>
       </Toolbar>
     </AppBar>

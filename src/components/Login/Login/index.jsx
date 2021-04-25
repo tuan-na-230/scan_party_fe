@@ -20,6 +20,7 @@ import { FastField, Form, Formik } from 'formik';
 import { SPCheckBox, SPTextField } from '../../form_field';
 import loginService from '../index.service';
 import * as Yup from 'yup';
+import Alert from '@material-ui/lab/Alert';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -55,7 +56,7 @@ export default function LoginForm(props) {
                 localStorage.setItem('access-token', JSON.stringify(res.accessToken));
                 localStorage.setItem('refresh-token', JSON.stringify(res.refreshToken));
                 localStorage.setItem('user', JSON.stringify(res.user));
-                toast(res.message)
+                toast(t(res.message))
                 history.push('/');
                 setError('')
             }
@@ -115,7 +116,7 @@ export default function LoginForm(props) {
                                     component={SPCheckBox}
                                     label='remember_me'
                                 />
-                                {/* {(error) && <Alert severity="error">{error}</Alert>} */}
+                                {(error) && <Alert severity="error">{t(error)}</Alert>}
                                 <Button
                                     type="submit"
                                     fullWidth

@@ -13,6 +13,7 @@ import ListAltIcon from '@material-ui/icons/ListAlt';
 import eventService from '../eventService';
 import { toast } from 'react-toastify';
 import ItemStep3 from './ItemStep3';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Step3({ dataStep1, dataStep2, dataStep3, setDataSet3 }) {
   const classes = useStyles();
+  const {t} = useTranslation()
   const guestData = dataStep2 ? dataStep2[0] : {};
   const [listTemplate, setListTemplate] = React.useState([]);
   
@@ -52,7 +54,7 @@ export default function Step3({ dataStep1, dataStep2, dataStep3, setDataSet3 }) 
       setListTemplate(res);
       setDataSet3(dataStep3 || res[0])
     } catch (error) {
-      toast(error.response.data.message)
+      toast(t(error.response.data.message))
     }
   }
 

@@ -1,5 +1,6 @@
 import { Box, CircularProgress } from '@material-ui/core';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import usePaginationAsync from '../../hook/usePaginationAsync';
 import StoreItem from './StoreItem';
@@ -11,13 +12,14 @@ export default function ListExcel({ userId }) {
         loading,
         data,
     } = usePaginationAsync({ apiService: getlistExcel, pageSizeDefault: 5 });
+    const {t} = useTranslation()
 
     async function getlistExcel(params) {
         try {
             const listExcel = await storeService.getFileExcel(params, userId);
             return listExcel;
         } catch (error) {
-            toast(error.response.data.message);
+            toast(t(error.response.data.message));
         }
         return null;
     }

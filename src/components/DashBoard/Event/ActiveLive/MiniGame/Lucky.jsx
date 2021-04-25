@@ -7,10 +7,12 @@ import clover from '../../../../../assets/images/clover.png';
 import {
     XCircle as CloseIcon
 } from 'react-feather';
+import { useTranslation } from 'react-i18next';
 
 function Lucky({setShowPopupMiniGame}) {
     const { eventId } = useParams();
     const [luckyPerson, setLuckyPerson] = useState();
+    const {t} = useTranslation()
 
     async function getLuckyPerson() {
         try {
@@ -19,7 +21,7 @@ function Lucky({setShowPopupMiniGame}) {
                 setLuckyPerson(res)
             }
         } catch (error) {
-            toast(error.response.data.message)
+            toast(t(error.response.data.message))
         }
     }
 

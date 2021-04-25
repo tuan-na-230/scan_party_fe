@@ -3,10 +3,14 @@ import "../../assets/scss/index.scss"
 import Toggle from 'react-toggle'
 import { EnglishIcon, VietNamIcon } from '../../assets/icons';
 import i18n from '../../i18n';
+import { useDispatch } from 'react-redux';
+import { changeTheme } from '../../stores/slices/themeSlice';
+import { Box } from '@material-ui/core';
 
 export default function LoginHeader() {
     const [isVi, setVi] = React.useState(true);
     const [isDarkMode, setDarkMode] = React.useState(false);
+    const dispatch = useDispatch();
 
     const changeLanguage = (lng) => {
         i18n.changeLanguage(lng);
@@ -15,11 +19,14 @@ export default function LoginHeader() {
     useEffect(() => {
        isVi ? changeLanguage('vi') : changeLanguage('en')
     }, [isVi])
+
+    useEffect(() => {
+        isDarkMode ? dispatch(changeTheme({theme: 'dark'})) : dispatch(changeTheme({theme: 'light'}))
+    }, [isDarkMode])
     
     return (
-        <div style={{ padding: '0px 50px 0px 50px', display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+        <Box style={{ padding: '5px 20px 0px 20px', display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
             <div style={{ padding: '10px 20px', margin: '0px 5px', border: '1px solid #c0c0c0', borderRadius: '10px', display: 'flex', alignItems: 'center'}}>
-                <label>darkmode</label>
                 <label style={{height: '24px'}}>
                     <Toggle
                         defaultChecked={isDarkMode}
@@ -31,7 +38,6 @@ export default function LoginHeader() {
                 </label>
             </div>
             <div style={{ padding: '10px 20px', margin: '0px 5px', border: '1px solid #c0c0c0', borderRadius: '10px' , display: 'flex', alignItems: 'center' }}>
-                <label>language</label>
                 <label style={{ height: '24px' }}>
                     <Toggle
                         defaultChecked={isVi}
@@ -42,6 +48,6 @@ export default function LoginHeader() {
                         onChange={() => setVi(!isVi)} />
                 </label>
             </div>
-        </div>
+        </Box>
     );
 }

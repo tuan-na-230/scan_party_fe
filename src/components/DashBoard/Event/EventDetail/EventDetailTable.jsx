@@ -28,7 +28,7 @@ export default function EventDetailTable({ eventId }) {
       const res = await eventService.getListTicket(params, eventId);
       return res;
     } catch (error) {
-      toast(error.response.data.message);
+      toast(t(error.response.data.message));
     }
     return null;
   }

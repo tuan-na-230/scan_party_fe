@@ -39,7 +39,7 @@ const ProfileDetails = ({ className, ...rest }) => {
       const res = await loginService.updateUser(data);
       localStorage.setItem('user', JSON.stringify(res.user))
       // setUser(res.user)
-      toast(res.message);
+      toast(t(res.message));
       setError('')
     } catch (error) {
       setError(error.response.data.message);
@@ -48,7 +48,7 @@ const ProfileDetails = ({ className, ...rest }) => {
   }
 
   return (
-    <Card>
+    <Card elevation={9}>
       <CardHeader
         subheader={t('the_information_can_be_edited')}
         title={t('profile')}

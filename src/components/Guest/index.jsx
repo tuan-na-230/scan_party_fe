@@ -23,7 +23,7 @@ function Guest() {
     const [isShowPopupScan, setShowPopupScan] = useState(false);
     const [isShowForm, setShowForm] = useState(false);
     return (
-        <>
+        <Paper>
             <GuestTopBar />
             {isShowPopupScan && <PopUpCheckTicket isShow={isShowPopupScan} setShow={setShowPopupScan} />}
             <Container maxWidth="md" className={classes.content}>
@@ -33,9 +33,9 @@ function Guest() {
                         className={classes.headerImage}
                     />
                 </Box>
-                {isShowForm ? <GuestForm onBack={() => { setShowForm(false) }} /> : <EventInfo setShowForm={setShowForm}/>}
+                {isShowForm ? <GuestForm onBack={() => { setShowForm(false) }} /> : <EventInfo setShowForm={setShowForm} />}
             </Container>
-        </>
+        </Paper>
     )
 }
 

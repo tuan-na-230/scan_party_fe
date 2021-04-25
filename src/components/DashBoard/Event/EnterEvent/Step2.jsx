@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Step2({ handleUpload, dataStep2 }) {
   const classes = useStyles();
   const { t } = useTranslation();
-  const [showIconSuccess, setShowIconSuccess] = React.useState(false)
+  const [showIconSuccess, setShowIconSuccess] = React.useState(false);
 
   async function readFileExcel(e) {
     const file = e.target.files[0];
@@ -55,16 +55,16 @@ export default function Step2({ handleUpload, dataStep2 }) {
     const user = JSON.parse(localStorage.getItem('user'));
     let fd = new FormData();
     fd.append("file", file);
-    fd.append("id", user._id);
+    fd.append("id", user?._id);
     fd.append("type", "excel")
     try {
       const res = await eventService.uploadFileExcel(fd);
       if (res) {
-        toast(res.message);
+        toast(t(res.message));
         return res.data
       }
     } catch (error) {
-      toast(error.response.data.message)
+      toast(t(error.response.data.message))
     }
   }
 
@@ -89,10 +89,6 @@ export default function Step2({ handleUpload, dataStep2 }) {
           onChange={readFileExcel}
         />
       </Box>
-      <Typography variant="subtitle1">
-        Tạo form đăng kí trực tuyến
-      </Typography>
-      <Button color="primary" variant="contained"><ListAltIcon /> {t('create_registration_form')}</Button>
     </React.Fragment >
   );
 }

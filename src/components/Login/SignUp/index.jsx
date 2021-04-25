@@ -45,13 +45,15 @@ export default function SignUp({ setMode }) {
     const classes = useStyles();
     const { t } = useTranslation();
     const [error, setError] = useState('');
+    const [message, setMessage] = useState('');
 
     async function handleSubmit(data) {
         try {
             const res = await loginService.signUp(data);
-            toast(res.message)
+            setMessage(res.message)
             setError('')
         } catch (error) {
+            setMessage('')
             setError(error.response.data.message)
         }
     }
@@ -156,7 +158,8 @@ export default function SignUp({ setMode }) {
                                         />
                                     </Grid>
                                 </Grid>
-                                {(error) && <Alert severity="error">{error}</Alert>}
+                                {(error) && <Alert severity="error">{t(error)}</Alert>}
+                                {(message) && <Alert severity="success">{t(message)}</Alert>}
                                 <Button
                                     type="submit"
                                     fullWidth

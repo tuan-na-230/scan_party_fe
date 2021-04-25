@@ -8,10 +8,10 @@ import { useTranslation } from 'react-i18next';
 import moment from 'moment';
 import ChatRoomContent from './ChatRoomContent';
 import JoinChat from './JoinChat';
-const socket = io.connect(`http://localhost:5000/`);
+const socket = io.connect(process.env.REACT_APP_API_URL);
 
 function ChatRoom({ chatId }) {
-    const [aliasName, setAliasName] = useState(localStorage.getItem("aliasName"))
+    const [aliasName, setAliasName] = useState(localStorage.getItem("aliasName"));
     return (
         <>
             {aliasName

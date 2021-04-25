@@ -1,4 +1,4 @@
-import { Button, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
+import { Button, Container, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
 import { FastField, Form, Formik } from 'formik';
 import React, { useState } from 'react';
 import { CornerUpLeft as BackIcon } from 'react-feather'
@@ -36,17 +36,17 @@ function GuestForm({ onBack }) {
             const data = { ...value }
             const res = await eventService.userRegisterForm(eventId, data);
             if (res) {
-                toast(res.message)
+                toast(t(res.message))
                 setResMessage(res.message)
             }
         } catch (error) {
             setResMessage(error.response.data.message)
-            toast(error.response.data.message)
+            toast(t(error.response.data.message))
         }
         resetForm({})
     }
     return (
-        <>
+        <Container>
             <Paper elevation={3} className="p-1 m-1">
                 <Typography variant="h5">Form đăng kí</Typography>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -157,19 +157,20 @@ function GuestForm({ onBack }) {
                     </Formik>
                 </div>
             </Paper>
-            <Grid container>
+            <Grid container >
                 <Grid item>
                     <Button
                         variant="contained"
                         color="secondary"
                         endIcon={<BackIcon />}
                         onClick={onBack}
+                        style={{marginBottom: '1rem'}}
                     >
                         Trở lại
                 </Button>
                 </Grid>
             </Grid>
-        </>
+        </Container>
     )
 }
 

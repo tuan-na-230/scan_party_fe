@@ -11,6 +11,8 @@ function SPTextField({
     const { name } = field
     const { isValid, errors, touched, dirty, validateOnMount } = form;
 
+    console.log(dirty)
+
     return (
         <TextField
             {...field}
@@ -24,8 +26,8 @@ function SPTextField({
             type={type}
             margin={margin}
             {...otherProps}
-            error={errors[name]}
-            helperText={(!isValid) ? t(errors[name]) : ''}
+            error={errors[name] && dirty}
+            helperText={(!isValid && dirty) ? t(errors[name]) : ''}
         />
     )
 }

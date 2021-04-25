@@ -3,7 +3,7 @@ import { Liquid, measureTextWidth } from '@ant-design/charts';
 import io from "socket.io-client";
 import { useParams } from 'react-router';
 import { useTranslation } from 'react-i18next';
-const socket = io.connect(`http://localhost:5000/`);
+const socket = io.connect(process.env.REACT_APP_API_URL);
 
 function LiquidChart() {
     const {t} = useTranslation();

@@ -2,18 +2,27 @@ import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import SystemAlert from '../../../SystemAlert';
 import Account from '../../Account';
-import DashBoard from '../../DashBoard';
 import DeviceTest from '../../DeviceTest';
 import Event from '../../Event'
 import ActiveLive from '../../Event/ActiveLive';
 import EventDetail from '../../Event/EventDetail';
 import Store from '../../Store'
 import '../../../../assets/scss/index.scss';
+import {  makeStyles, Paper } from '@material-ui/core';
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+      backgroundColor: theme.palette.background.default,
+      padding: '24px 0',
+      minHeight: '100vh'
+    },
+  }));
 
 function Main() {
+    const classes = useStyles();
     let { path } = useRouteMatch();
     return (
-        <div style={{ padding: '24px 0', backgroundColor: '#F4F6F8', minHeight: '100vh' }}>
+        <Paper className={classes.root}>
             <SystemAlert />
             <Switch>
                 <Route path={`${path}event/:eventId/active-live`} >
@@ -35,7 +44,7 @@ function Main() {
                     <Store />
                 </Route >
             </Switch >
-        </div >
+        </Paper >
     )
 }
 

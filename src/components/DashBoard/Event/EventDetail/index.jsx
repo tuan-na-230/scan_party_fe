@@ -18,7 +18,7 @@ import RatingList from './RatingList'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: theme.palette.background.dark,
+    // backgroundColor: theme.palette.background.dark,
     minHeight: "100%",
     marginLeft: theme.spacing(2),
     marginRight: theme.spacing(2),
@@ -45,18 +45,18 @@ function EventDetail() {
       const res = await eventService.getDetailEvent(params.eventId);
       setDetailEvent(res);
     } catch (error) {
-      toast(error.response.data.message);
+      toast(t(error.response.data.message));
     }
   }
   async function handleDelEvent() {
     try {
       const res = await eventService.delEvent(params.eventId);
       if (res) {
-        toast(res.message);
-        history.push("/event");
+        toast(t(res.message));
+        history.push("/");
       }
     } catch (error) {
-      toast(error.response.data.message);
+      toast(t(error.response.data.message));
     }
   }
 

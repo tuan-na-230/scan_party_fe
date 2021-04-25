@@ -17,6 +17,7 @@ import Step3 from "./Step3";
 import eventService from "../eventService";
 import { toast } from "react-toastify";
 import moment from "moment";
+import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -61,8 +62,10 @@ const steps = [
   "Kiểm tra",
 ];
 
-export default function EnterValue({ setShowEnterForm }) {
+export default function EnterValue({ setShowEnterForm, fetchData }) {
+  const {t} = useTranslation()
   const classes = useStyles();
+  const {email} = JSON.parse(localStorage.getItem('user'))
   const [activeStep, setActiveStep] = React.useState(0);
   const [valueStep1, setValueStep1] = React.useState({
     description: "adfdafasdf",
@@ -107,23 +110,26 @@ export default function EnterValue({ setShowEnterForm }) {
           facebook: valueStep1.facebook,
         },
         description: valueStep1.description,
-        isAcceptGuestJoin: valueStep1.isAcceptGuestJoin
+        isAcceptGuestJoin: valueStep1.isAcceptGuestJoin,
+        owner: email
       },
       guestInfo: [...valueStep2],
       ticketTemplateInfo: {
         type: valueStep3,
         effectiveDate: 14,
       },
+      
     };
     try {
       const res = await eventService.createEvent(data);
       if (res) {
-        toast(res.message);
+        toast(t(res.message));
       }
       setShowEnterForm(false);
+      fetchData()
       setActiveStep(0);
     } catch (error) {
-      toast(error.response.data.message);
+      toast(t(error.response.data.message));
     }
   }
 

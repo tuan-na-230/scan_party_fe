@@ -14,6 +14,7 @@ import eventService from "../eventService";
 import {
   XCircle as CloseIcon
 } from 'react-feather'
+import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -43,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
 export default function ModalGuestInfo({ isShow, setShow, ticketId }) {
   const classes = useStyles();
   const [customerInfo, setCustomerInfo] = useState({});
+  const {t} = useTranslation()
   useEffect(() => {
     isShow && getGuestByTicket(ticketId);
   }, [isShow]);
@@ -52,7 +54,7 @@ export default function ModalGuestInfo({ isShow, setShow, ticketId }) {
       const res = await eventService.getGuestByTicket(ticketId);
       res && setCustomerInfo(res);
     } catch (error) {
-      toast(error.response.data.message);
+      toast(t(error.response.data.message));
     }
   }
 

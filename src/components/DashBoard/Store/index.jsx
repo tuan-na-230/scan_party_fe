@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
         marginRight: theme.spacing(3),
         marginLeft: theme.spacing(3),
-        padding: theme.spacing(2),
+        padding: theme.spacing(3),
     },
     tab: {
         marginBottom: theme.spacing(2)

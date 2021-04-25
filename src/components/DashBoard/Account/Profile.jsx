@@ -49,15 +49,15 @@ const Profile = () => {
                 localStorage.setItem('user', JSON.stringify(res.user))
                 setUser({ ...JSON.parse(localStorage.getItem('user')) })
                 dispatch(changeUser())
-                toast(res.message)
+                toast(t(res.message))
             }
         } catch (error) {
-            toast(error.response.data.message)
+            toast(t(error.response.data.message))
         }
     }
 
     return (
-        <Card>
+        <Card elevation={9}>
             <CardContent>
                 <Box
                     alignItems="center"

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core';
+import { Box, makeStyles, Paper } from '@material-ui/core';
 import NavBar from './NavBar';
 import TopBar from './TopBar';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
@@ -7,7 +7,7 @@ import Main from './Main';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: theme.palette.background.dark,
+    backgroundColor: theme.palette.background.default,
     display: 'flex',
     height: '100%',
     overflow: 'hidden',
@@ -39,21 +39,21 @@ const DashboardLayout = () => {
   const [isMobileNavOpen, setMobileNavOpen] = useState(false);
 
   return (
-    <div className={classes.root}>
+    <Paper className={classes.root}>
       <TopBar onMobileNavOpen={() => setMobileNavOpen(true)} />
       <NavBar
         onMobileClose={() => setMobileNavOpen(false)}
         openMobile={isMobileNavOpen}
       />
       
-      <div className={classes.wrapper}>
-        <div className={classes.contentContainer}>
-          <div className={classes.content}>
+      <Box className={classes.wrapper}>
+        <Box className={classes.contentContainer}>
+          <Box className={classes.content}>
             <Main />
-          </div>
-        </div>
-      </div>
-    </div>
+          </Box>
+        </Box>
+      </Box>
+    </Paper>
   );
 };
 

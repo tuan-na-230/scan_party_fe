@@ -19,6 +19,7 @@ import moment from "moment";
 import { Check } from 'react-feather';
 
 const useStyles = makeStyles((theme) => ({
+    
     modal: {
         display: "flex",
         alignItems: "center",
@@ -26,8 +27,8 @@ const useStyles = makeStyles((theme) => ({
         overflow: 'auto'
     },
     paper: {
-        backgroundColor: "white",
-        height: 'auto'
+        height: 'auto',
+        backgroundColor: theme.palette.background.default
     },
     closeIcon: {
         '&:hover': {
@@ -37,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
     ModalHeader: {
         padding: theme.spacing(1),
         width: '100%',
+        
     },
     modalContent: {
         padding: theme.spacing(1),
@@ -94,7 +96,6 @@ export default function PopUpCheckTicket({ isShow, setShow }) {
         >
             <Paper
                 in={isShow}
-                style={{ backgroundColor: "white" }}
                 className={classes.paper}
             >
                 <Grid container>

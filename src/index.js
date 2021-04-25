@@ -7,6 +7,7 @@ import './i18n';
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from 'react-redux';
 import stores from './stores';
+import { createMuiTheme, ThemeProvider, useMediaQuery } from '@material-ui/core';
 
 ReactDOM.render(
   <React.StrictMode>

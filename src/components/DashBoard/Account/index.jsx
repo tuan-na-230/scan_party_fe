@@ -3,7 +3,8 @@ import {
     Box,
     Container,
     Grid,
-    makeStyles
+    makeStyles,
+    Paper
 } from '@material-ui/core';
 import Profile from './Profile';
 import ProfileDetails from './ProfileDetails';
@@ -11,10 +12,11 @@ import ChangePassword from './ChangePassword'
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        backgroundColor: theme.palette.background.dark,
+        // backgroundColor: theme.palette.background.dark,
         minHeight: '100%',
-        paddingBottom: theme.spacing(3),
-        paddingTop: theme.spacing(3)
+        padding: theme.spacing(3),
+        marginRight: theme.spacing(3),
+        marginLeft: theme.spacing(3),
     },
     changePassword: {
         marginTop: 24
@@ -25,7 +27,7 @@ const Account = () => {
     const classes = useStyles();
 
     return (
-        <Container maxWidth="lg">
+        <Paper maxWidth="lg" className={classes.root} elevation={24}>
             <Grid
                 container
                 spacing={3}
@@ -50,7 +52,7 @@ const Account = () => {
                     <ProfileDetails />
                 </Grid>
             </Grid>
-        </Container>
+        </Paper>
     );
 };
 
