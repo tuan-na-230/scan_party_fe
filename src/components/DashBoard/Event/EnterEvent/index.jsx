@@ -178,7 +178,7 @@ export default function EnterValue({ setShowEnterForm, fetchData }) {
   return (
     <React.Fragment>
       <main className={classes.layout}>
-        <Paper elevation={24} className={classes.paper}>
+        <Paper elevation={12} className={classes.paper}>
           <Typography component="h1" variant="h4" align="center">
             {t('add_event')}
           </Typography>
