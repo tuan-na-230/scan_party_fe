@@ -129,5 +129,6 @@
     "create_ticket": "Create ticket",
     "must_have_email_and_name": "Excel must field email and name",
     "NOT_IN_USE_YET": "Not use yet",
-    "USER": "Used"
+    "USER": "Used",
+    "wrong_format_number": "Wrong format number"
 }

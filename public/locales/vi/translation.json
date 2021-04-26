@@ -127,5 +127,6 @@
     "create_ticket": "Tạo vé mời",
     "must_have_email_and_name": "Excel cần có cột name và email",
     "NOT_IN_USE_YET": "Chưa tham gia",
-    "USER": "Đã tham gia"
+    "USER": "Đã tham gia",
+    "wrong_format_number": "Kiểu số"
 }
