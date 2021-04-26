@@ -13,9 +13,8 @@ function SPEditor({
     const { isValid, errors, touched, dirty } = form;
 
     function onChange (event, editor) {
-        console.log(form.setFieldValue(name, editor.getData()))
+        form.setFieldValue(name, editor.getData())
     }
-
     
     return (
         <Box>

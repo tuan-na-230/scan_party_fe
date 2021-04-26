@@ -58,11 +58,10 @@ export default function Step3({ dataStep1, dataStep2, dataStep3, setDataSet3 }) 
     }
   }
 
-
   return (
     < React.Fragment >
       <Typography variant="h6" gutterBottom>
-        Tạo vé mời
+        {t('create_ticket')}
     </Typography>
       <Box>
         <Grid container spacing={2}>

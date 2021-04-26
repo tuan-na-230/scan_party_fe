@@ -6,17 +6,19 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { Box, Paper, Grid, Link } from '@material-ui/core';
 import ItemStep3 from './ItemStep3';
+import { useTranslation } from 'react-i18next';
+import moment from 'moment';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    height: 300,
-    padding: '2rem',
+    minHeight: 300,
+    padding: '1rem',
   },
   Typography: {
-    fontSize: '13px'
+    fontSize: '1rem'
   },
   ticket: {
-    height: 300,
+    minHeight: 300,
     padding: '1rem',
     color: 'white',
     textAlign: 'center',
@@ -30,56 +32,61 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Step4({ dataStep1, dataStep2, dataStep3, infoExcel }) {
   const classes = useStyles();
+  const { t } = useTranslation();
 
   return (
     <React.Fragment>
       <Typography variant="h6" component="h3" gutterBottom>
-        Kiểm tra
+        {t('check')}
       </Typography>
       <Box>
         <Grid container spacing={2}>
           <Grid item lg={4} xs={12}>
-            <Paper className={classes.paper}  elevation={12} >
+            <Paper className={classes.paper} elevation={12} >
               <Typography variant="h6" gutterBottom>
-                Thông tin sự kiện
+                <strong>
+                  {t('event_info')}
+                </strong>
               </Typography>
-              <Typography variant="h6" component="h3" className={classes.Typography}>
-                Tên: {dataStep1.name}
+              <Typography variant="h6" className={classes.Typography}>
+                <strong>{t('full_name')}</strong>: {dataStep1.name}
               </Typography>
-              <Typography variant="h6" component="h3" className={classes.Typography}>
-                Địa chỉ: {dataStep1.address}
+              <Typography variant="h6" className={classes.Typography}>
+                <strong>{t('address')}</strong>: {dataStep1.address}
               </Typography>
-              <Typography variant="h6" component="h3" className={classes.Typography}>
-                thời gian bắt đầu: {dataStep1.beginTime}
+              <Typography variant="h6" className={classes.Typography}>
+                <strong>{t('begin_time')}</strong>: {moment(dataStep1.beginTime).format("HH:mm DD-MM-YYYY")}
               </Typography>
-              <Typography variant="h6" component="h3" className={classes.Typography}>
-                Thời gian kết thúc: {dataStep1.endTime}
+              <Typography variant="h6" className={classes.Typography}>
+                <strong>{t('end_time')}</strong>: {moment(dataStep1.endTime).format("HH:mm DD-MM-YYYY")}
               </Typography>
-              <Typography variant="h6" component="h3" className={classes.Typography}>
-                Quản lý: {dataStep1.manager}
+              <Typography variant="h6" className={classes.Typography}>
+                <strong>{t('manager')}</strong>: {dataStep1.manager}
               </Typography>
-              <Typography variant="h6" component="h3" className={classes.Typography}>
-                Đơn vị tổ chức: {dataStep1.company}
+              <Typography variant="h6" className={classes.Typography}>
+                <strong>{t('company')}</strong>: {dataStep1.company}
               </Typography>
-              <Typography variant="h6" component="h3" className={classes.Typography}>
-                Email: {dataStep1.email}
+              <Typography variant="h6" className={classes.Typography}>
+                <strong>{t('email')}</strong>: {dataStep1.email}
               </Typography>
-              <Typography variant="h6" component="h3" className={classes.Typography}>
-                Facebook: {dataStep1.facebook}
+              <Typography variant="h6" className={classes.Typography}>
+                <strong>{t('facebook')}</strong>: {dataStep1.facebook}
               </Typography>
-              <Typography variant="h6" component="h3" className={classes.Typography}>
-                Số điện thoại: {dataStep1.phoneNumber}
+              <Typography variant="h6" className={classes.Typography}>
+                <strong>{t('phone_number')}</strong>: {dataStep1.phoneNumber}
               </Typography>
             </Paper>
           </Grid>
           <Grid item lg={4} xs={12} >
-            <Paper className={classes.paper}  elevation={12} >
+            <Paper className={classes.paper} elevation={12} >
               <Typography variant="h6" component="h3" gutterBottom>
-                Danh sách khách mời
+                <strong>
+                  {t('list_guest')}
+                </strong>
               </Typography>
               <Typography variant="h6" component="h3" gutterBottom>
-                <Link href={infoExcel ? `${infoExcel.path}` :"#"} onClick={() => console.log('')}>
-                  File
+                <Link href={infoExcel ? `${infoExcel.path}` : "#"} onClick={() => console.log('')}>
+                  {t('file')}
                 </Link>
               </Typography>
             </Paper>

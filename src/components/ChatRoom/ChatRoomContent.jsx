@@ -2,15 +2,35 @@ import React, { useEffect, useRef, useState } from 'react';
 import './index.scss';
 import io from "socket.io-client"
 import { FastField, Form, Formik } from 'formik';
-import { Button, Grid } from '@material-ui/core';
+import { Button, Grid, makeStyles } from '@material-ui/core';
 import { SPTextField } from '../form_field';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment';
 import { Activity } from 'react-feather';
 const socket = io.connect(process.env.REACT_APP_API_URL);
 
+const useStyles = makeStyles((theme) => ({
+    root: {
+        flexGrow: 1,
+    },
+    inputText: {
+        backgroundColor: theme.palette.background.paper,
+        borderRadius: '5px'
+    },
+    container: {
+        backgroundColor: theme.palette.background.default,
+    },
+    message: {
+        backgroundColor: theme.palette.background.paper,
+        padding: "10px",
+        marginBottom: "15px",
+        borderRadius: "5px",
+        boxShadow: "0px 3px 3px -2px rgb(0 0 0 / 20%), 0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%)"
+    }
+}));
+
 function ChatRoomContent({ chatId, aliasName, leaveRoom, isShowSideBar }) {
-    console.log(aliasName)
+    const classes = useStyles();
     const { t } = useTranslation();
     const [dataRoomChat, setDataRoomChat] = useState([]);
     const bottomRef = useRef();
@@ -35,12 +55,12 @@ function ChatRoomContent({ chatId, aliasName, leaveRoom, isShowSideBar }) {
 
     function displayConversation() {
         return dataRoomChat?.messages?.map(ele => (
-            <div class="message">
-                <p class="meta">{ele.user} <span>{moment(ele?.createdAt).format('DD-MM-YYYY HH:mm A')}</span></p>
-                <p class="text">
+            <div className={` message ${classes.message}`} >
+                <p className="meta">{ele.user} <span>{moment(ele?.createdAt).format('DD-MM-YYYY HH:mm A')}</span></p>
+                <p className="text">
                     {ele.message}
                 </p>
-            </div>
+            </div >
         ))
     }
 
@@ -53,27 +73,27 @@ function ChatRoomContent({ chatId, aliasName, leaveRoom, isShowSideBar }) {
 
     return (
         <>
-            <div class="chat-container">
-                <header class="chat-header">
-                    <h1><i class="fas fa-smile"></i> ChatRoom</h1>
-                    {leaveRoom && <a class="btn" onClick={leaveRoom}>{t('leave_room')}</a>}
+            <div className={`chat-container ${classes.container}`}>
+                <header className="chat-header">
+                    <h1><i className="fas fa-smile"></i> ChatRoom</h1>
+                    {leaveRoom && <a className="btn" onClick={leaveRoom}>{t('leave_room')}</a>}
                 </header>
-                <main class={isShowSideBar ? "chat-main" : ''}>
-                    {isShowSideBar && <div class="chat-sidebar">
-                        <h3><i class="fas fa-comments"></i> {t('room_name')}:</h3>
+                <main className={isShowSideBar ? "chat-main" : ''}>
+                    {isShowSideBar && <div className="chat-sidebar">
+                        <h3><i className="fas fa-comments"></i> {t('room_name')}:</h3>
                         <h2 id="room-name">{dataRoomChat?.name}</h2>
-                        <h3><i class="fas fa-users"></i>{t('alias_name')}</h3>
+                        <h3><i className="fas fa-users"></i>{t('alias_name')}</h3>
                         <ul id="users">
                             <li style={{ fontWeight: 'bold', fontSize: '18px' }}><Activity /> {aliasName}</li>
                         </ul>
                     </div>}
-                    <div class="chat-messages" style={{ width: '100%' }}>
+                    <div className="chat-messages" style={{ width: '100%' }}>
                         {displayConversation()}
                         <span style={{ float: 'right' }}>{dataRoomChat?.messages?.length} msg</span>
                         <div ref={bottomRef} className="list-bottom"></div>
                     </div>
                 </main>
-                <div class="chat-form-container">
+                <div className="chat-form-container">
                     <Formik
                         initialValues={{ message: '' }}
                         onSubmit={handleSubmit}
@@ -88,7 +108,7 @@ function ChatRoomContent({ chatId, aliasName, leaveRoom, isShowSideBar }) {
                                         type="text"
                                         variant="outlined"
                                         fullWidth
-                                        style={{ backgroundColor: 'white', borderRadius: '5px' }}
+                                        className={classes.inputText}
                                     />
                                     <Button
                                         type="submit"
@@ -99,7 +119,7 @@ function ChatRoomContent({ chatId, aliasName, leaveRoom, isShowSideBar }) {
                                         disabled={isSubmitting}
                                     >
                                         {t('send')}
-                                </Button>
+                                    </Button>
                                 </Form>
                             )
                         }}

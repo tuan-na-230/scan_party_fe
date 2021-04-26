@@ -58,8 +58,6 @@ function Event() {
         return null;
     }
 
-    console.log(data)
-
     return (
         <>
             {showEnterValue && <EnterValue setShowEnterForm={setShowEnterForm} fetchData={fetchData}/>}

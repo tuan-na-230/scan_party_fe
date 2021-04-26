@@ -76,7 +76,6 @@ const ProfileDetails = ({ className, ...rest }) => {
                       type="text"
                       variant="outlined"
                       label="first_name"
-                      autoFocus
                       fullWidth
                       required
                     />

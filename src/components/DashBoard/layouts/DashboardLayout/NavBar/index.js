@@ -18,7 +18,7 @@ import {
   BarChart as BarChartIcon,
   Lock as LockIcon,
   Settings as SettingsIcon,
-  ShoppingBag as ShoppingBagIcon,
+  Home as ShoppingBagIcon,
   User as UserIcon,
   UserPlus as UserPlusIcon,
   Users as UsersIcon,
@@ -82,7 +82,8 @@ const NavBar = ({ onMobileClose, openMobile }) => {
       href: '/store',
       icon: FileIcon,
       title: t('my_store')
-    }
+    },
+    
   ];
 
   useEffect(() => {
@@ -95,10 +96,8 @@ const NavBar = ({ onMobileClose, openMobile }) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const refreshToken = JSON.parse(localStorage.getItem('refresh-token'))
-
   async function handleLogOut() {
-    const refreshToken = localStorage.getItem('refresh-token') || '';
+    const refreshToken = JSON.parse(localStorage.getItem('refresh-token')) || '';
     dispatch(logOut())
     loginService.logOut({ refreshToken: refreshToken });
     history.push('/users/sign-in');
@@ -139,10 +138,10 @@ const NavBar = ({ onMobileClose, openMobile }) => {
       <Divider />
       <Box p={2}>
         <List>
-          {items.map((item) => (
+          {items.map((item, index) => (
             <NavItem
               href={item.href}
-              key={item.title}
+              key={index}
               title={item.title}
               icon={item.icon}
             />

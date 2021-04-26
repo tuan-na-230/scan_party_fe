@@ -3,22 +3,24 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { Formik, Form, FastField } from 'formik';
 import * as Yup from 'yup';
-import { SPCheckBox, SPDatePicker, SPEditor, SPTextField } from '../../../form_field';
-import { Box, Button, useTheme } from '@material-ui/core';
+import { SPCheckBox, SPEditor, SPTextField } from '../../../form_field';
+import { Box, Button } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 
 export default function Step1({ data, handleSubmit }) {
+    const { t } = useTranslation();
     return (
         <React.Fragment>
             <Typography variant="h6" gutterBottom>
-                Thông tin sự kiện
+                {t('event_info')}
             </Typography>
             <Formik
                 initialValues={{ ...data } || {}}
                 onSubmit={value => handleSubmit(value)}
                 validationSchema={Yup.object({
                     name: Yup.string().required('required'),
-                    beginTime: Yup.string().required('required'),
-                    endTime: Yup.string().required('required'),
+                    beginTime: Yup.date().required('required'),
+                    endTime: Yup.date().min(Yup.ref('beginTime'), "end_date_must_be_grater_than_start_date").required('required'),
                     address: Yup.string().required('required'),
                     company: Yup.string().required('required'),
                     manager: Yup.string().required('required'),
@@ -138,16 +140,17 @@ export default function Step1({ data, handleSubmit }) {
                                         component={SPCheckBox}
                                         required
                                         fullWidth
-                                        label='cho phép khách mời điền form đăng kí'
+                                        label={t('accept_guest_join')}
                                     />
                                 </Grid>
                             </Grid>
-                            <Box style={{display: 'flex', justifyContent: 'flex-end', marginTop: '2rem'}}>
+                            <Box style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '2rem' }}>
                                 <Button type="submit"
                                     variant="contained"
                                     color="primary"
+                                    disabled={!isValid}
                                 >
-                                    Tiếp
+                                    {t('next')}
                                 </Button>
                             </Box>
                         </Form>

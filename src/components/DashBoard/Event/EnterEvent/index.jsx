@@ -55,34 +55,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const steps = [
-  "Thông tin sự kiện",
-  "Thông tin khách mời",
-  "tạo vé mời",
-  "Kiểm tra",
-];
+
 
 export default function EnterValue({ setShowEnterForm, fetchData }) {
-  const {t} = useTranslation()
+  const { t } = useTranslation()
   const classes = useStyles();
-  const {email} = JSON.parse(localStorage.getItem('user'))
+  const { email } = JSON.parse(localStorage.getItem('user'))
   const [activeStep, setActiveStep] = React.useState(0);
   const [valueStep1, setValueStep1] = React.useState({
-    description: "adfdafasdf",
-    beginTime: "2021-03-18T10:30",
-    endTime: "2021-03-18T10:30",
-    name: "Chào đón tân sinh viên",
-    address: "Trường Đại học Kinh tế Quốc dân",
-    company: "Trường Đại học Kinh tế Quốc dân",
-    manager: "Nguyễn Văn A",
-    email: "tuan.na.230@gmail.com",
-    facebook: "tuan.na.230@gmail.com",
-    phoneNumber: "0349591999",
-    isAcceptGuestJoin: false
+    beginTime: moment().format('YYYY-MM-DDTHH:mm'),
+    endTime: moment().format('YYYY-MM-DDTHH:mm'),
   });
   const [valueStep2, setValueStep2] = React.useState();
   const [valueStep3, setValueStep3] = React.useState();
   const [infoExcel, setInfoExcel] = React.useState();
+
+  const steps = [
+    t('event_info'),
+    t('guest_info'),
+    t('create_ticket'),
+    t('check')
+  ];
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
@@ -118,7 +111,7 @@ export default function EnterValue({ setShowEnterForm, fetchData }) {
         type: valueStep3,
         effectiveDate: 14,
       },
-      
+
     };
     try {
       const res = await eventService.createEvent(data);
@@ -187,7 +180,7 @@ export default function EnterValue({ setShowEnterForm, fetchData }) {
       <main className={classes.layout}>
         <Paper className={classes.paper}>
           <Typography component="h1" variant="h4" align="center">
-            Thêm sự kiện
+            {t('add_event')}
           </Typography>
           <Stepper activeStep={activeStep} className={classes.stepper}>
             {steps.map((label) => (
@@ -200,10 +193,10 @@ export default function EnterValue({ setShowEnterForm, fetchData }) {
             {activeStep === steps.length ? (
               <React.Fragment>
                 <Typography variant="h5" gutterBottom>
-                  Tạo sự kiện thành công
+                  {t('add_event_success')}
                 </Typography>
                 <Typography variant="subtitle1">
-                  Lời mời của bạn đã được gửi đi
+                  {t('your_ticket_sent_to_guest')}
                 </Typography>
               </React.Fragment>
             ) : (
@@ -212,7 +205,7 @@ export default function EnterValue({ setShowEnterForm, fetchData }) {
                 <div className={classes.buttons}>
                   {activeStep !== 0 && (
                     <Button onClick={handleBack} className={classes.button}>
-                      Trở lại
+                      {t('back')}
                     </Button>
                   )}
                   {activeStep !== 0 && (
@@ -223,8 +216,8 @@ export default function EnterValue({ setShowEnterForm, fetchData }) {
                       className={classes.button}
                     >
                       {activeStep === steps.length - 1
-                        ? "Tạo mới sự kiện"
-                        : "Tiếp"}
+                        ? t('create')
+                        : t('next')}
                     </Button>
                   )}
                 </div>
