@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { Formik, Form, FastField } from 'formik';
 import * as Yup from 'yup';
-import { SPCheckBox, SPEditor, SPTextField } from '../../../form_field';
+import { SPCheckBox, SPDatePicker, SPEditor, SPTextField } from '../../../form_field';
 import { Box, Button } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 
@@ -27,8 +27,8 @@ export default function Step1({ data, handleSubmit }) {
                     phoneNumber: Yup.string().required('required').matches(/^[0-9]+$/, 'wrong_format_number'),
                 })}
             >
-                {formikProps => {
-                    const { isValid, touched, isSubmitting, isFocus } = formikProps;
+                {props => {
+                    const { isValid, touched, isSubmitting, isFocus } = props;
                     return (
                         <Form noValidate>
                             <Grid container spacing={3}>
@@ -47,11 +47,12 @@ export default function Step1({ data, handleSubmit }) {
                                     <Grid item xs={12} sm={12}>
                                         <FastField
                                             name='beginTime'
-                                            component={SPTextField}
+                                            component={SPDatePicker}
                                             type="datetime-local"
                                             required
                                             fullWidth
                                             label='begin_time'
+                                            mat-datepicker={<div>hello again</div>}
                                         />
                                     </Grid>
                                 </Grid>

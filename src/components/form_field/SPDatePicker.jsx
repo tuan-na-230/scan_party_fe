@@ -27,7 +27,7 @@ function SPDatePicker({
         <MuiPickersUtilsProvider utils={DateFnsUtils} >
             <KeyboardDatePicker
                 disableToolbar
-                variant={variant}
+                variant={'outlined'}
                 format="MM/dd/yyyy"
                 label={t(`${label}`)}
                 value={selectedDate}
@@ -35,6 +35,7 @@ function SPDatePicker({
                 KeyboardButtonProps={{
                     'aria-label': 'change date',
                 }}
+                rightArrowIcon={<div>hello</div>}
             />
         </MuiPickersUtilsProvider>
     )

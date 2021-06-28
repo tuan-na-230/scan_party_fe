@@ -65,6 +65,14 @@ export default function EnterValue({ setShowEnterForm, fetchData }) {
   const [valueStep1, setValueStep1] = React.useState({
     beginTime: moment().format('YYYY-MM-DDTHH:mm'),
     endTime: moment().format('YYYY-MM-DDTHH:mm'),
+    name: 'Chào đón tân sinh viên',
+    address: 'Trường Đại học Kinh tế Quốc dân',
+    company: 'Trường Đại học Kinh tế Quốc dân',
+    manager: 'Nguyễn Văn Minh',
+    email: 'tuan.na.230@gmail.com',
+    phoneNumber: '0349591999',
+    facebook: 'tuan.na.230@gmail.com',
+    description: 'Sự kiện chào đón tân sinh viên, nằm trong chuỗi sự kiện của trường Kinh tế Quốc dân...'
   });
   const [valueStep2, setValueStep2] = React.useState();
   const [valueStep3, setValueStep3] = React.useState();

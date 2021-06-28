@@ -62,20 +62,19 @@ export default function PopUpScanTicket({ isShow, setShow }) {
     const [errorMessage, setErrorMessage] = useState('');
 
     async function scanTicket(data) {
-        socket.emit("scanTicket", { "value": data.text, "eventId": eventId })
-        // try {
-        //     const res = socket.emit("scanTicket", { "value": data.text, "eventId": eventId })
-        //     console.log(res)
-        //     if (res) {
-        //         setValid(true);
-        //         setInfoCustomer(res);
-        //     }
-        // } catch (error) {
-        //     setValid(false);
-        //     setInfoCustomer();
-        //     setErrorMessage(error.response.data.message);
-        // }
-        // setInit(false)
+        // socket.emit("scanTicket", { "value": data.text, "eventId": eventId })
+        try {
+            const res = socket.emit("scanTicket", { "value": data.text, "eventId": eventId })
+            if (res) {
+                setValid(true);
+                setInfoCustomer(res);
+            }
+        } catch (error) {
+            setValid(false);
+            setInfoCustomer();
+            setErrorMessage(error.response.data.message);
+        }
+        setInit(false)
     }
 
     socket.on("scanTicket", ({data}) => {

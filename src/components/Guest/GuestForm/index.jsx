@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
 import eventService from '../../DashBoard/Event/eventService';
 import { toast } from 'react-toastify';
+import Alert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles(({
     root: {},
@@ -30,6 +31,7 @@ function GuestForm({ onBack }) {
     const classes = useStyles();
     const { eventId } = useParams();
     const [resMessage, setResMessage] = useState();
+    const [isError, setIsError] = useState(false)
 
     async function handleSubmit(value, { resetForm }) {
         try {
@@ -38,9 +40,11 @@ function GuestForm({ onBack }) {
             if (res) {
                 toast(t(res.message))
                 setResMessage(res.message)
+                setIsError(false)
             }
         } catch (error) {
-            setResMessage(error.response.data.message)
+            setResMessage(error.response.data.message);
+            setIsError(true)
             toast(t(error.response.data.message))
         }
         resetForm({})
@@ -48,7 +52,7 @@ function GuestForm({ onBack }) {
     return (
         <Container>
             <Paper elevation={3} className="p-1 m-1">
-                <Typography variant="h5">Form đăng kí</Typography>
+                <Typography variant="h5">{t(`register_form`)}</Typography>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                     <Formik
                         initialValues={{ name: '', gender: '', email: '', phoneNumber: '', address: '', confirm: false }}
@@ -122,7 +126,7 @@ function GuestForm({ onBack }) {
                                                 component={SPTextField}
                                                 type="text"
                                                 variant="outlined"
-                                                label="address"
+                                                label="address_guest"
                                                 autoComplete="address"
                                                 fullWidth
                                                 required
@@ -137,8 +141,8 @@ function GuestForm({ onBack }) {
                                         </Grid>
                                     </Grid>
                                     <Grid container spacing={2} justifyContent="center">
-                                        <Grid item xs={6}>
-                                            {<span>{resMessage}</span>}
+                                        <Grid item xs={12} style={{ wordBreak: 'break-all' }}>
+                                            {(resMessage) && <Alert severity={isError ? "error" : "success"}>{t(resMessage)}</Alert>}
                                         </Grid>
                                     </Grid>
                                     <Button
@@ -164,10 +168,10 @@ function GuestForm({ onBack }) {
                         color="secondary"
                         endIcon={<BackIcon />}
                         onClick={onBack}
-                        style={{marginBottom: '1rem'}}
+                        style={{ marginBottom: '1rem' }}
                     >
-                        Trở lại
-                </Button>
+                        {t('back')}
+                    </Button>
                 </Grid>
             </Grid>
         </Container>

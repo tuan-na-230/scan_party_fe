@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { QueryClient, useQuery, useQueryClient } from "react-query";
 import SPPagination from "../common/pagination";
-
-// const { Search } = Input;
 
 export default function usePaginationAsync({
   apiService,
   pageSizeDefault = 10,
 }) {
-  const [data, setData] = useState([]);
   const [pagination, setPagination] = useState({
     page: 0,
     size: pageSizeDefault,
@@ -17,7 +15,13 @@ export default function usePaginationAsync({
     page: 0,
     size: pageSizeDefault,
   });
-  const [loading, setLoading] = useState(false);
+  const queryClient = useQueryClient();
+
+  const page = pagination.page
+  const { data = [], isLoading: loading, isFetching, refetch } = useQuery(
+    ['projects', page, {size: pagination.size}],
+    fetchData,
+    { staleTime: 10000, enabled: false, keepPreviousData: true })
 
   function handlePageChange(newPage) {
     setFilters({
@@ -25,7 +29,7 @@ export default function usePaginationAsync({
       page: newPage,
     });
   }
-
+  
   function handleChangeRowsPerPage(newSize) {
     setFilters({
       ...filters,
@@ -33,7 +37,7 @@ export default function usePaginationAsync({
       size: newSize,
     });
   }
-
+  
   function handleFiltersChange(newFilters) {
     setFilters({
       ...filters,
@@ -42,41 +46,43 @@ export default function usePaginationAsync({
     });
   }
 
-  async function fetchData() {
-    setLoading(true);
+  
+  
+  useEffect(() => {
+    refetch();
+  }, [filters]);
+  
+  async function fetchData({queryKey}) {
+    console.log(queryKey)
     const res = await apiService(filters);
-    setLoading(false);
     if (res) {
       const { content, pagination } = res;
-      setData(content);
       setPagination({
         size: parseInt(pagination?.size),
         page: parseInt(pagination?.page),
         total: parseInt(pagination?.total),
       });
+      return content
     }
-    return res;
+    else {
+      throw new Error(res.response.data.message)
+    }
   }
-
-  useEffect(() => {
-    fetchData();
-  }, [filters]);
-
   const Pagination = () => (
     <SPPagination
-      page={pagination.page}
+    page={pagination.page}
       total={pagination.total}
       size={pagination.size}
       onChangePage={handlePageChange}
       onChangeRowsPerPage={handleChangeRowsPerPage}
-    />
+      />
   );
   return {
     ...pagination,
     data,
     onChange: handleFiltersChange,
     Pagination,
-    loading,
+    loading: loading || isFetching,
     fetchData,
   };
 }

@@ -64,7 +64,7 @@ export default function PopUpCheckTicket({ isShow, setShow }) {
     async function scanTicket(data) {
         try {
             const res = await deviceTestService.scanTicket({ "value": data.text, "eventId": eventId });
-            if (res) {
+            if (res?.data) {
                 setValid(true);
                 setInfoCustomer(res.data);
             }
@@ -117,7 +117,7 @@ export default function PopUpCheckTicket({ isShow, setShow }) {
                                         Object.keys(customerInfo.info).map((ele) => (
                                             <Typography>{`${ele}: ${customerInfo.info[ele]}`}</Typography>
                                         )) : <Typography>{errorMessage}</Typography>}
-                                    {isValid && <Typography>Thời gian hết hạn: {customerInfo && moment(customerInfo.expirationDate).format("DD-MM-YYYY HH:mm")}</Typography>}
+                                    {isValid && customerInfo && <Typography>Thời gian hết hạn: {customerInfo && moment(customerInfo.expirationDate).format("DD-MM-YYYY HH:mm")}</Typography>}
                                 </Box>
                             </Grid>}
                         </Paper>

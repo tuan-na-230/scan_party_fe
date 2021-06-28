@@ -78,7 +78,7 @@
     "unauthorized": "Không được phép",
     "success": "Thành công",
     "required_body": "Yêu cầu dữ liệu !",
-    "create_success_we_sent_ticket_to": "Tạo thành công, chúng tôi đã gửi 1 vé mời đến email của bạn",
+    "create_success_we_sent_ticket_to_your_email": "Tạo thành công, chúng tôi đã gửi 1 vé mời đến email của bạn",
     "delete_event_success":"Xóa sự kiện thành công !",
     "upload_success": "Tải lên thành công !",
     "required_file": "Yêu cầu file !",
@@ -128,5 +128,9 @@
     "must_have_email_and_name": "Excel cần có cột name và email",
     "NOT_IN_USE_YET": "Chưa tham gia",
     "USER": "Đã tham gia",
-    "wrong_format_number": "Kiểu số"
+    "wrong_format_number": "Kiểu số",
+    "address_guest": "Địa chỉ của bạn",
+    "confirm": "Tôi xác nhận thông tin đã cung cấp",
+    "register_form": "Form đăng kí",
+    "back": "Trở lại"
 }

@@ -8,13 +8,20 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from 'react-redux';
 import stores from './stores';
 import { createMuiTheme, ThemeProvider, useMediaQuery } from '@material-ui/core';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools'
+
+const queryClient = new QueryClient();
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={stores}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <App />
+          <ReactQueryDevtools />
+        </BrowserRouter>
+      </QueryClientProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

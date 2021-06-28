@@ -80,7 +80,7 @@
     "unauthorized": "unauthorized",
     "success": "Success",
     "required_body": "Required body !",
-    "create_success_we_sent_ticket_to": "Create success, we sent a ticket to your email",
+    "create_success_we_sent_ticket_to_your_email": "Create success, we sent a ticket to your email",
     "delete_event_success":"Delete Event successfully !",
     "upload_success": "Upload Successfully !",
     "required_file": "Require file !",
@@ -130,5 +130,9 @@
     "must_have_email_and_name": "Excel must field email and name",
     "NOT_IN_USE_YET": "Not use yet",
     "USER": "Used",
-    "wrong_format_number": "Wrong format number"
+    "wrong_format_number": "Wrong format number",
+    "address_guest": "Your address",
+    "confirm": "I confirm my information",
+    "register_form": "Register Form",
+    "back": "Back"
 }
